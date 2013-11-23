@@ -4,7 +4,7 @@ using System.Collections;
 public class Movement : MonoBehaviour
 {
 	private int stick_count = 7;
-	public float roll_speed = 0.01f;
+	private float roll_speed = 0.015f;
 	public float roll_bound = 9.0f;
 
 	public float move_force = 1f;
@@ -23,7 +23,17 @@ public class Movement : MonoBehaviour
 		hingeMotor2D = hingeJoint2D.motor;
 
 	}
-	
+
+	void rollStrick(float vertical) {
+		for (int i = 0; i < stick_count; i++) 
+			transform.Find ("sticks_" + i.ToString ()).transform.Translate (vertical * Vector3.down * i * roll_speed);
+		transform.Find ("sticks_" + stick_count.ToString ()).transform.Translate (vertical * Vector3.down * (stick_count -1) * roll_speed);
+		connected_anchror = transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor;
+		connected_anchror.y -= ((stick_count-1) * roll_speed * vertical);
+		transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor = connected_anchror;
+		roll_out += roll_speed * stick_count * vertical;
+	}
+
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
@@ -31,24 +41,8 @@ public class Movement : MonoBehaviour
 		float vertical = this.gameObject.name.Equals("LegR") ? Input.GetAxis ("Vertical2" ) : Input.GetAxis ("Vertical");
 		
 		// If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeed yet...
-		if (vertical > 0f && roll_out < roll_bound) {
-			for (int i = 0; i < stick_count; i++) 
-				transform.Find ("sticks_" + i.ToString ()).transform.Translate (1 * Vector3.down * i * roll_speed);
-			transform.Find ("sticks_" + stick_count.ToString ()).transform.Translate (1 * Vector3.down * (stick_count -1) * roll_speed);
-			connected_anchror = transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor;
-			connected_anchror.y -= ((stick_count-1) * roll_speed);
-			transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor = connected_anchror;
-			roll_out += roll_speed * stick_count;
-		}
-		else if (vertical < 0f && roll_out > 0f) {
-			for (int i = 0; i < stick_count; i++) 
-				transform.Find ("sticks_" + i.ToString ()).transform.Translate (-1 * Vector3.down * i * roll_speed);
-			transform.Find ("sticks_" + stick_count.ToString ()).transform.Translate (-1 * Vector3.down * (stick_count -1) * roll_speed);
-			connected_anchror = transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor;
-			connected_anchror.y += ((stick_count-1)  * roll_speed);
-			transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor = connected_anchror;
-			roll_out -= roll_speed * stick_count;
-		}
+		if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f)) 
+			rollStrick(vertical);
 		
 		// Cache the horizontal input.
 		float horizontal = this.gameObject.name.Equals("LegR") ? Input.GetAxis ("Horizontal2" ) : Input.GetAxis ("Horizontal");
