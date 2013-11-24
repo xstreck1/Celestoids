@@ -29,8 +29,8 @@ public class Movement : MonoBehaviour
 
 		// Move sticks
 		for (int i = 1; i < stick_count; i++) 
-			transform.Find ("sticks_" + i.ToString ()).transform.Translate (vertical * Vector3.down * i * roll_speed);
-		transform.Find ("sticks_" + stick_count.ToString ()).transform.Translate (roll_lenght * Vector3.down);
+			transform.Find ("sticks_" + i.ToString ()).Translate (vertical * Vector3.down * i * roll_speed);
+		transform.Find ("sticks_" + stick_count.ToString ()).Translate (roll_lenght * Vector3.down);
 
 		// Move wheel
 		connected_anchror = transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor;
