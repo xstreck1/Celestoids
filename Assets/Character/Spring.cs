@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Spring : MonoBehaviour {
+	public bool spring_possible;
 
 	// Use this for initialization
 	void Start () {
@@ -13,8 +14,12 @@ public class Spring : MonoBehaviour {
 
 	}
 
-	public void ShootSpring() {
-		animation.CrossFade("spring_shot");
-		Debug.Log("SpringShot");
+
+	void OnTriggerEnter(Collider collision) {
+		spring_possible = true;
+	}
+
+	void OnTriggerExit() {
+		spring_possible = false;
 	}
 }
