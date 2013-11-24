@@ -5,12 +5,12 @@ public class Movement : MonoBehaviour
 {
 	private int stick_count = 7;
 	private float roll_speed = 0.015f;
-	public float roll_bound = 9.0f;
+	private float roll_bound = 8.0f;
 
 	public float move_force = 1f;
 	public float roll_out = 0f;
 
-	public float rotation_speed = 50f;
+	public float rotation_speed = 75f;
 
 	private HingeJoint2D hingeJoint2D;
 	private JointMotor2D hingeMotor2D;
@@ -24,50 +24,51 @@ public class Movement : MonoBehaviour
 
 	}
 
-	void rollStrick(float vertical) {
-		for (int i = 0; i < stick_count; i++) 
+	void rollLeg(float vertical) {
+		float roll_lenght = vertical * (stick_count -1) * roll_speed;
+
+		// Move sticks
+		for (int i = 1; i < stick_count; i++) 
 			transform.Find ("sticks_" + i.ToString ()).transform.Translate (vertical * Vector3.down * i * roll_speed);
-		transform.Find ("sticks_" + stick_count.ToString ()).transform.Translate (vertical * Vector3.down * (stick_count -1) * roll_speed);
+		transform.Find ("sticks_" + stick_count.ToString ()).transform.Translate (roll_lenght * Vector3.down);
+
+		// Move wheel
 		connected_anchror = transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor;
-		connected_anchror.y -= ((stick_count-1) * roll_speed * vertical);
+		connected_anchror.y -= roll_lenght;
 		transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor = connected_anchror;
-		roll_out += roll_speed * stick_count * vertical;
+
+		// Make boundry
+		roll_out += roll_lenght;
 	}
+
+	void turnLeg(float horizontal) {
+		hingeMotor2D.motorSpeed = rotation_speed * horizontal;
+		hingeJoint2D.motor = hingeMotor2D;
+	}
+
+	void brakeWheel(float brake) {
+		transform.Find("wheel").rigidbody2D.fixedAngle = false;
+
+		if (brake > 0f && brake < 0.9f)
+			transform.Find("wheel").rigidbody2D.angularDrag = Mathf.Pow(1000000f, brake);
+		else if (brake >= 0.9f)
+			transform.Find("wheel").rigidbody2D.fixedAngle = true;
+		else 
+			transform.Find("wheel").rigidbody2D.angularDrag = 0.01f;
+	}
+
 
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		// Cache the horizontal input.
-		float vertical = this.gameObject.name.Equals("LegR") ? Input.GetAxis ("Vertical2" ) : Input.GetAxis ("Vertical");
-		
-		// If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeed yet...
+		float vertical = this.gameObject.name.Equals("LegR") ? Input.GetAxis ("VerticalR" ) : Input.GetAxis ("VerticalL");
 		if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f)) 
-			rollStrick(vertical);
-		
-		// Cache the horizontal input.
-		float horizontal = this.gameObject.name.Equals("LegR") ? Input.GetAxis ("Horizontal2" ) : Input.GetAxis ("Horizontal");
-		Vector3 rotation_point = transform.Find ("sticks_5").position;
-		rotation_point.y += 0.4f;
-		
-		// If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeed yet...
-		if (horizontal > 0.1f) {
-			hingeMotor2D.motorSpeed = rotation_speed;
-		}
-		else if (horizontal < -0.1f) {
-			hingeMotor2D.motorSpeed = -rotation_speed;
-		} else {
-			hingeMotor2D.motorSpeed = 0;
-		}
-		hingeJoint2D.motor = hingeMotor2D;
+			rollLeg(vertical);
 
-		float wheel_brake = -1 * (this.gameObject.name.Equals("LegR") ? Input.GetAxis ("Break2" ) : Input.GetAxis ("Break"));
-		transform.Find("wheel").rigidbody2D.fixedAngle = false;
-		if (wheel_brake > 0f && wheel_brake < 0.9f)
-			transform.Find("wheel").rigidbody2D.angularDrag = Mathf.Pow(1000000f, wheel_brake);
-		else if (wheel_brake >= 0.9f)
-			transform.Find("wheel").rigidbody2D.fixedAngle = true;
-		else 
-			transform.Find("wheel").rigidbody2D.angularDrag = 0.01f;
-		Debug.Log(wheel_brake);
+		float horizontal = this.gameObject.name.Equals("LegR") ? Input.GetAxis ("HorizontalR" ) : Input.GetAxis ("HorizontalL");
+		turnLeg(horizontal);
+		
+		float wheel_brake = -1 * (this.gameObject.name.Equals("LegR") ? Input.GetAxis ("BreakR" ) : Input.GetAxis ("BreakL"));
+		brakeWheel(wheel_brake);
 	}
 }

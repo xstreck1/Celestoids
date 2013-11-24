@@ -12,10 +12,10 @@ public class Control : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonDown ("IgniteLeft" )) {
+		if (Input.GetButtonDown ("SpringL" )) {
 			transform.Find("Body").rigidbody2D.AddForce(transform.Find("Body").transform.rotation * Vector3.right * ROTATION_FORCE);
 		}
-		if (Input.GetButtonDown ("IgniteRight" )) {
+		if (Input.GetButtonDown ("SpringR" )) {
 			transform.Find("Body").rigidbody2D.AddForce(transform.Find("Body").transform.rotation * Vector3.left * ROTATION_FORCE);
 		}
 	}
