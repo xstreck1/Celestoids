@@ -41,8 +41,17 @@ public class Movement : MonoBehaviour
 		roll_out += roll_lenght;
 	}
 
+	bool valid_angle(float horizontal) {
+		Control control = transform.parent.GetComponent<Control>();
+		bool valid_left = name.Equals("LegL") && ((horizontal < 0f && !control.left_fixed_bot) || (horizontal > 0f && !control.left_fixed_top));
+		bool valid_right = name.Equals("LegR") && ((horizontal > 0f && !control.right_fixed_bot) || (horizontal < 0f && !control.right_fixed_top));
+		return valid_left || valid_right;
+	}
+
 	void turnLeg(float horizontal) {
-		hingeMotor2D.motorSpeed = rotation_speed * horizontal;
+		hingeMotor2D.motorSpeed = 0f;
+		if (valid_angle(horizontal))
+			hingeMotor2D.motorSpeed = rotation_speed * horizontal;
 		hingeJoint2D.motor = hingeMotor2D;
 	}
 
@@ -61,14 +70,14 @@ public class Movement : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		float vertical = this.gameObject.name.Equals("LegR") ? Input.GetAxis ("VerticalR" ) : Input.GetAxis ("VerticalL");
+		float vertical = name.Equals("LegR") ? Input.GetAxis ("VerticalR" ) : Input.GetAxis ("VerticalL");
 		if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f)) 
 			rollLeg(vertical);
 
-		float horizontal = this.gameObject.name.Equals("LegR") ? Input.GetAxis ("HorizontalR" ) : Input.GetAxis ("HorizontalL");
+		float horizontal = name.Equals("LegR") ? Input.GetAxis ("HorizontalR" ) : Input.GetAxis ("HorizontalL");
 		turnLeg(horizontal);
 		
-		float wheel_brake = -1 * (this.gameObject.name.Equals("LegR") ? Input.GetAxis ("BreakR" ) : Input.GetAxis ("BreakL"));
+		float wheel_brake = -1 * (name.Equals("LegR") ? Input.GetAxis ("BreakR" ) : Input.GetAxis ("BreakL"));
 		brakeWheel(wheel_brake);
 	}
 }
