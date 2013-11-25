@@ -11,6 +11,8 @@ public class Control : MonoBehaviour {
 
 	public Transform body;
 
+	private const float CAM_DIST = -10f;
+
 	// Use this for initialization
 	void Start () {
 		body = transform.FindChild("Body");
@@ -30,6 +32,7 @@ public class Control : MonoBehaviour {
 			body.FindChild("springR").animation.CrossFade("spring_shot");
 		}*/
 
+		// Control blocation of the motors
 		float left_angle = Quaternion.Angle(transform.Find("LegL").rotation, body.rotation);
 		left_fixed_bot = left_angle < 5f; 
 		left_fixed_top = left_angle > 115f;
@@ -39,5 +42,9 @@ public class Control : MonoBehaviour {
 		right_fixed_top = right_angle > 115f;
 
 		// Debug.Log("Left angle: " + left_angle.ToString() + " Right angle: " + right_angle.ToString());
+
+		Vector3 camera = transform.Find("Body").transform.position;
+		camera.z = CAM_DIST;
+		transform.FindChild("camera").transform.position = camera;
 	}
 }
