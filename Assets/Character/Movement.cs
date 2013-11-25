@@ -7,21 +7,29 @@ public class Movement : MonoBehaviour
 	private float roll_speed = 0.015f;
 	private float roll_bound = 8.0f;
 
-	public float move_force = 1f;
-	public float roll_out = 0f;
+	private float move_force = 1f;
+	private float roll_out = 0f;
 
-	public float rotation_speed = 75f;
+	private float rotation_speed = 75f;
+	private float correction_speed;
 
+	private float last_angle = 0f;
+
+	Control control;
 	private HingeJoint2D hingeJoint2D;
 	private JointMotor2D hingeMotor2D;
 	private Vector3 connected_anchror;
+
+	private JointAngleLimits2D blocking_limits;
 	
 	// Use this for initialization
 	void Start ()
 	{
 		hingeJoint2D = GetComponent<HingeJoint2D>();
 		hingeMotor2D = hingeJoint2D.motor;
-
+		blocking_limits = hingeJoint2D.limits;
+		control = transform.parent.GetComponent<Control>();
+		correction_speed = 10f * (name.Equals("LegR") ? -1f : 1f);
 	}
 
 	void rollLeg(float vertical) {
@@ -42,7 +50,7 @@ public class Movement : MonoBehaviour
 	}
 
 	bool valid_angle(float horizontal) {
-		Control control = transform.parent.GetComponent<Control>();
+
 		bool valid_left = name.Equals("LegL") && ((horizontal < 0f && !control.left_fixed_bot) || (horizontal > 0f && !control.left_fixed_top));
 		bool valid_right = name.Equals("LegR") && ((horizontal > 0f && !control.right_fixed_bot) || (horizontal < 0f && !control.right_fixed_top));
 		return valid_left || valid_right;
@@ -50,8 +58,13 @@ public class Movement : MonoBehaviour
 
 	void turnLeg(float horizontal) {
 		hingeMotor2D.motorSpeed = 0f;
-		if (valid_angle(horizontal))
+		if (horizontal != 0f && valid_angle(horizontal)) {
 			hingeMotor2D.motorSpeed = rotation_speed * horizontal;
+			last_angle = control.getAngle(name);
+		} else {
+			hingeMotor2D.motorSpeed = (last_angle - control.getAngle(name)) * correction_speed;
+		}
+		// hingeJoint2D.limits = blocking_limits;
 		hingeJoint2D.motor = hingeMotor2D;
 	}
 
