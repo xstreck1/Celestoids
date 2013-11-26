@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Movement : MonoBehaviour
@@ -93,14 +93,14 @@ public class Movement : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		float vertical = name.Equals("LegR") ? Input.GetAxis ("VerticalR" ) : Input.GetAxis ("VerticalL");
+		float vertical = -1 * (name.Equals("LegR") ?  SuperInputMapper.GetAxis("RY", OuyaSDK.OuyaPlayer.player1) : SuperInputMapper.GetAxis("LY", OuyaSDK.OuyaPlayer.player1));
 		if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f)) 
 			rollLeg(vertical);
 
-		float horizontal = name.Equals("LegR") ? Input.GetAxis ("HorizontalR" ) : Input.GetAxis ("HorizontalL");
-		turnLeg(horizontal);
-		
-		float wheel_brake = -1 * (name.Equals("LegR") ? Input.GetAxis ("BreakR" ) : Input.GetAxis ("BreakL"));
+		float horizontal = name.Equals("LegR") ? SuperInputMapper.GetAxis("RX", OuyaSDK.OuyaPlayer.player1) : SuperInputMapper.GetAxis("LX", OuyaSDK.OuyaPlayer.player1);
+		turnLeg(-1 * horizontal);
+
+		float wheel_brake = (name.Equals("LegR") ? SuperInputMapper.GetAxis("RT", OuyaSDK.OuyaPlayer.player1) : SuperInputMapper.GetAxis("LT", OuyaSDK.OuyaPlayer.player1));
 		brakeWheel(wheel_brake);
 	}
 }
