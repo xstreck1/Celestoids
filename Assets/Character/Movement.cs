@@ -21,7 +21,8 @@ public class Movement : MonoBehaviour
 	private Vector3 connected_anchror;
 
 	private JointAngleLimits2D blocking_limits;
-	private stick_pierce control_stick;
+	private PiercePiece piercing_stick;
+	private ConnectPiece connecting_stick;
 	
 	// Use this for initialization
 	void Start ()
@@ -32,12 +33,15 @@ public class Movement : MonoBehaviour
 		control = transform.parent.GetComponent<Control>();
 		correction_speed = 5f * (name.Equals("LegR") ? -1f : 1f);
 		last_angle = control.getBodyAngle(name);
-		control_stick = transform.FindChild("sticks_" + (stick_count -1).ToString()).GetComponent<stick_pierce>();
+		piercing_stick = transform.FindChild("sticks_" + (stick_count -1).ToString()).GetComponent<PiercePiece>();
+		connecting_stick = transform.FindChild("sticks_" + (stick_count).ToString()).GetComponent<ConnectPiece>();
 	}
 
 	void rollLeg(float vertical) {
 		// Control if extending is possible (the stick does not pierce the wheel or the leg is not screwing the body.
-		if (vertical > 0f && (control_stick.in_collision || control.getAxisAngle(name) < 20f))
+		if (vertical > 0f && (piercing_stick.in_collision || control.getAxisAngle(name) < 20f))
+			return;
+		if (vertical < 0f && !connecting_stick.in_collision)
 			return;
 
 		float roll_lenght = vertical * (stick_count -1) * roll_speed;
