@@ -21,6 +21,7 @@ public class Movement : MonoBehaviour
 	private Vector3 connected_anchror;
 
 	private JointAngleLimits2D blocking_limits;
+	private stick_pierce control_stick;
 	
 	// Use this for initialization
 	void Start ()
@@ -29,10 +30,16 @@ public class Movement : MonoBehaviour
 		hingeMotor2D = hingeJoint2D.motor;
 		blocking_limits = hingeJoint2D.limits;
 		control = transform.parent.GetComponent<Control>();
-		correction_speed = 10f * (name.Equals("LegR") ? -1f : 1f);
+		correction_speed = 5f * (name.Equals("LegR") ? -1f : 1f);
+		last_angle = control.getBodyAngle(name);
+		control_stick = transform.FindChild("sticks_" + (stick_count -1).ToString()).GetComponent<stick_pierce>();
 	}
 
 	void rollLeg(float vertical) {
+		// Control if extending is possible (the stick does not pierce the wheel or the leg is not screwing the body.
+		if (vertical > 0f && (control_stick.in_collision || control.getAxisAngle(name) < 20f))
+			return;
+
 		float roll_lenght = vertical * (stick_count -1) * roll_speed;
 
 		// Move sticks
@@ -50,7 +57,6 @@ public class Movement : MonoBehaviour
 	}
 
 	bool valid_angle(float horizontal) {
-
 		bool valid_left = name.Equals("LegL") && ((horizontal < 0f && !control.left_fixed_bot) || (horizontal > 0f && !control.left_fixed_top));
 		bool valid_right = name.Equals("LegR") && ((horizontal > 0f && !control.right_fixed_bot) || (horizontal < 0f && !control.right_fixed_top));
 		return valid_left || valid_right;
@@ -60,9 +66,9 @@ public class Movement : MonoBehaviour
 		hingeMotor2D.motorSpeed = 0f;
 		if (horizontal != 0f && valid_angle(horizontal)) {
 			hingeMotor2D.motorSpeed = rotation_speed * horizontal;
-			last_angle = control.getAngle(name);
+			last_angle = control.getBodyAngle(name);
 		} else {
-			hingeMotor2D.motorSpeed = (last_angle - control.getAngle(name)) * correction_speed;
+			hingeMotor2D.motorSpeed = (last_angle - control.getBodyAngle(name)) * correction_speed;
 		}
 		// hingeJoint2D.limits = blocking_limits;
 		hingeJoint2D.motor = hingeMotor2D;

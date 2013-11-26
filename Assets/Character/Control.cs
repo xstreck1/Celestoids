@@ -34,11 +34,11 @@ public class Control : MonoBehaviour {
 
 		// Control blocation of the motors
 
-		left_fixed_bot = getAngle("LegL") < 5f; 
-		left_fixed_top = getAngle("LegL") > 115f;
+		left_fixed_bot = getBodyAngle("LegL") < 60f && getAxisAngle("LegL") < 30f; 
+		left_fixed_top = getBodyAngle("LegL") > 60f && getAxisAngle("LegL") < 30f;
 		
-		right_fixed_bot = getAngle("LegR") < 5f; 
-		right_fixed_top = getAngle("LegR") > 115f;
+		right_fixed_bot = getBodyAngle("LegR") < 60f && getAxisAngle("LegR") < 30f;
+		right_fixed_top = getBodyAngle("LegR") > 60f  && getAxisAngle("LegR") < 30f;
 
 		// Debug.Log("Left angle: " + left_angle.ToString() + " Right angle: " + right_angle.ToString());
 
@@ -47,7 +47,13 @@ public class Control : MonoBehaviour {
 		transform.FindChild("camera").transform.position = camera;
 	}
 
-	public float getAngle(string leg_name) {
+	public float getBodyAngle(string leg_name) {
 		return Quaternion.Angle(transform.Find(leg_name).rotation, body.rotation);
 	}
+
+	public float getAxisAngle(string leg_name) {
+		Transform axis = leg_name.Equals("LegL") ? body.Find("axisL") : body.Find("axisR");
+		return Quaternion.Angle(transform.Find(leg_name).rotation, axis.rotation);
+	}
+
 }
