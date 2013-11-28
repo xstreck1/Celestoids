@@ -6,8 +6,7 @@ public class Movement : MonoBehaviour
 	private int stick_count = 7;
 	private float roll_speed = 0.015f;
 	private float roll_bound = 8.0f;
-
-	private float move_force = 1f;
+	
 	private float roll_out = 0f;
 
 	private float rotation_speed = 75f;
@@ -19,8 +18,7 @@ public class Movement : MonoBehaviour
 	private HingeJoint2D hingeJoint2D;
 	private JointMotor2D hingeMotor2D;
 	private Vector3 connected_anchror;
-
-	private JointAngleLimits2D blocking_limits;
+	
 	private PiercePiece piercing_stick;
 	private ConnectPiece connecting_stick;
 	
@@ -29,7 +27,6 @@ public class Movement : MonoBehaviour
 	{
 		hingeJoint2D = GetComponent<HingeJoint2D>();
 		hingeMotor2D = hingeJoint2D.motor;
-		blocking_limits = hingeJoint2D.limits;
 		control = transform.parent.GetComponent<Control>();
 		correction_speed = 5f * (name.Equals("LegR") ? -1f : 1f);
 		last_angle = control.getBodyAngle(name);
@@ -61,8 +58,8 @@ public class Movement : MonoBehaviour
 	}
 
 	bool valid_angle(float horizontal) {
-		bool valid_left = name.Equals("LegL") && ((horizontal < 0f && !control.left_fixed_bot) || (horizontal > 0f && !control.left_fixed_top));
-		bool valid_right = name.Equals("LegR") && ((horizontal > 0f && !control.right_fixed_bot) || (horizontal < 0f && !control.right_fixed_top));
+		bool valid_left = name.Equals("LegL") && ((horizontal < 0f && !control.isFixed("LegL", true)) || (horizontal > 0f && !control.isFixed("LegL", false)));
+		bool valid_right = name.Equals("LegR") && ((horizontal > 0f && !control.isFixed("LegR", true)) || (horizontal < 0f && !control.isFixed("LegR", false)));
 		return valid_left || valid_right;
 	}
 

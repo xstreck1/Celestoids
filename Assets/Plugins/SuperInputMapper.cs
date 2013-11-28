@@ -1282,14 +1282,13 @@ public class SuperInputMapper {
 	
 	public static void UpdateJoysticks()
 	{
-		Debug.Log("Update call");
 		if (m_timerJoysticks < DateTime.Now)
 		{
 			//check for new joysticks every N seconds
 			m_timerJoysticks = DateTime.Now + TimeSpan.FromSeconds(3);
 			
 			Joysticks = Input.GetJoystickNames();
-			Debug.Log(Joysticks.Length);
+			// Debug.Log(Joysticks.Length);
 		}
 	}
 }
