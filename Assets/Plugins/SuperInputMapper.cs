@@ -930,11 +930,11 @@ public class SuperInputMapper {
 			case OuyaSDK.KeyEnum.BUTTON_O:
 				return ButtonIndex(0,0,0f);
 			case OuyaSDK.KeyEnum.BUTTON_U:
-				return ButtonIndex(1,0,0f);
-			case OuyaSDK.KeyEnum.BUTTON_Y:
 				return ButtonIndex(2,0,0f);
-			case OuyaSDK.KeyEnum.BUTTON_A:
+			case OuyaSDK.KeyEnum.BUTTON_Y:
 				return ButtonIndex(3,0,0f);
+			case OuyaSDK.KeyEnum.BUTTON_A:
+				return ButtonIndex(1,0,0f);
 			case OuyaSDK.KeyEnum.BUTTON_L3:
 				return ButtonIndex(6,0,0f);
 			case OuyaSDK.KeyEnum.BUTTON_R3:

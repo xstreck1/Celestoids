@@ -4,7 +4,7 @@ using System.Linq;
 
 public class PlayerControl : MonoBehaviour {
 	private Transform body;
-	private Player player_state;
+	public Player player_state;
 
 	private readonly float CAM_DIST = -10f;
 

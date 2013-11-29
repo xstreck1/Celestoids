@@ -21,10 +21,13 @@ public class Movement : MonoBehaviour
 	
 	private PiercePiece piercing_stick;
 	private ConnectPiece connecting_stick;
+
+	private OuyaSDK.OuyaPlayer player_input;
 	
 	// Use this for initialization
 	void Start ()
 	{
+		player_input = (OuyaSDK.OuyaPlayer) (transform.parent.GetComponent<PlayerControl>().player_state.number + 1);
 		hingeJoint2D = GetComponent<HingeJoint2D>();
 		hingeMotor2D = hingeJoint2D.motor;
 		control = transform.parent.GetComponent<PlayerControl>();
@@ -90,14 +93,14 @@ public class Movement : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		float vertical = -1 * (name.Equals("LegR") ?  SuperInputMapper.GetAxis("RY", OuyaSDK.OuyaPlayer.player1) : SuperInputMapper.GetAxis("LY", OuyaSDK.OuyaPlayer.player1));
+		float vertical = -1 * (name.Equals("LegR") ?  SuperInputMapper.GetAxis("RY", player_input) : SuperInputMapper.GetAxis("LY", player_input));
 		if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f)) 
 			rollLeg(vertical);
 
-		float horizontal = name.Equals("LegR") ? SuperInputMapper.GetAxis("RX", OuyaSDK.OuyaPlayer.player1) : SuperInputMapper.GetAxis("LX", OuyaSDK.OuyaPlayer.player1);
+		float horizontal = name.Equals("LegR") ? SuperInputMapper.GetAxis("RX", player_input) : SuperInputMapper.GetAxis("LX", player_input);
 		turnLeg(-1 * horizontal);
 
-		float wheel_brake = (name.Equals("LegR") ? SuperInputMapper.GetAxis("RT", OuyaSDK.OuyaPlayer.player1) : SuperInputMapper.GetAxis("LT", OuyaSDK.OuyaPlayer.player1));
+		float wheel_brake = (name.Equals("LegR") ? SuperInputMapper.GetAxis("RT", player_input) : SuperInputMapper.GetAxis("LT", player_input));
 		brakeWheel(wheel_brake);
 	}
 }
