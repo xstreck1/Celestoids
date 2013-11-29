@@ -9,12 +9,14 @@ public struct Player {
 	public bool active;
 	public bool finished;
 	public float time;
+	public int rank;
 
-	public Player(string name, int number) {
+	public Player(string name, int number, bool active) {
 		this.name = name;
 		this.number = number;
-		this.active = false;
+		this.active = active;
 		this.finished = false;
+		this.rank = 0;
 		this.time = 0.0f;
 	}
 }
@@ -39,27 +41,35 @@ public class GameState : MonoBehaviour {
 	public static IList<Player> players;
 	public static IList<GameLevel> levels;
 	public static GameLevel chosen_level;
+	public static int rank; //< What rank has the currently finished player.
+	public static bool initialized = false;
 
 	// Use this for initialization
-	void Awake () {
-		DontDestroyOnLoad(transform.gameObject);
+	public static void init (List<bool> active) {
+		if (!initialized) {
+			players = new List<Player>();
+			foreach (int i in Enumerable.Range(1,4)) 
+				players.Add(new Player("player" + i.ToString(), i, active[i - 1]));
 
-		players = new List<Player>();
-		foreach (int i in Enumerable.Range(1,4)) 
-			players.Add(new Player("player" + i.ToString(), i));
+			levels = new List<GameLevel>();
+			levels.Add(new GameLevel("INTRO", 10f, 15f, 20f));
+			levels.Add(new GameLevel("BOXES", 10f, 15f, 20f));
 
-		levels = new List<GameLevel>();
-		levels.Add(new GameLevel("INTRO", 10f, 15f, 20f));
-		levels.Add(new GameLevel("BOXES", 10f, 15f, 20f));
+			chosen_level = levels.First();
 
-		chosen_level = levels.First();
+			rank = 1;
+			initialized = true;
+		}
 	}
 
-	void Start() {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
+	public static void nullify() {
+		foreach (int i in Enumerable.Range(0,3)) {
+			Player temp = players[i];
+			temp.finished = false;
+			temp.time = 0f;
+			temp.rank = 0;
+			players[i] = temp;
+		}
+		rank = 1;
 	}
 }

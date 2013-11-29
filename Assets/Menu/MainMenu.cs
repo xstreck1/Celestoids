@@ -9,6 +9,17 @@ public class MainMenu : MonoBehaviour {
 		transform.Find("level_name").GetComponent<TextMesh>().text = GameState.chosen_level.name;		
 	}
 
+	void Awake() {
+		GameState.init(new List<bool> {true, false, false, false});
+	}
+
+	void Start() {
+		setName();
+		foreach (int i in Enumerable.Range(1,4)) {
+			transform.Find("Bodies").Find("player" + i.ToString()).gameObject.SetActive(GameState.players[i - 1].active);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		SuperInputMapper.UpdateJoysticks();
@@ -46,9 +57,5 @@ public class MainMenu : MonoBehaviour {
 			if (enabled)
 				Application.LoadLevel(GameState.chosen_level.name);
 		}
-	}
-
-	void Start() {
-		setName();
 	}
 }

@@ -51,6 +51,7 @@ public class PlayerControl : MonoBehaviour {
 
 	public void finished() {
 		player_state.time = Time.timeSinceLevelLoad;
+		player_state.rank = GameState.rank++;
 		disable();
 	}
 
@@ -58,5 +59,10 @@ public class PlayerControl : MonoBehaviour {
 		transform.Find("LegL").gameObject.SetActive(false);
 		transform.Find("LegR").gameObject.SetActive(false);
 		player_state.finished = true;
+		foreach (int i in Enumerable.Range(0,3)) {
+			if (GameState.players[i].name.Equals(name)) {
+				GameState.players[i] = player_state;
+			}
+		}
 	}
 }
