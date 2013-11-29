@@ -8,7 +8,6 @@ public class GameControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		level_name = PlayerPrefs.GetString("LevelName", "WrongLevelName");
 		top_time = PlayerPrefs.GetFloat(level_name, 0.0f);
 
 		transform.Find("record").guiText.pixelOffset = new Vector2(Screen.width  / 2f - 10f, Screen.height / 2f - 10f);

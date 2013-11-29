@@ -2,16 +2,16 @@
 using System.Collections;
 
 public class Finish : MonoBehaviour {
-	Control control;
+	PlayerControl control;
 
 	// Use this for initialization
 	void Start () {
-		Control control;
+		PlayerControl control;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		control = transform.parent.parent.GetComponent<Control>();
+		control = transform.parent.parent.GetComponent<PlayerControl>();
 	}
 
 	public void OnTriggerEnter2D(Collider2D collider) {

@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
 
 	private float last_angle = 0f;
 
-	Control control;
+	PlayerControl control;
 	private HingeJoint2D hingeJoint2D;
 	private JointMotor2D hingeMotor2D;
 	private Vector3 connected_anchror;
@@ -27,7 +27,7 @@ public class Movement : MonoBehaviour
 	{
 		hingeJoint2D = GetComponent<HingeJoint2D>();
 		hingeMotor2D = hingeJoint2D.motor;
-		control = transform.parent.GetComponent<Control>();
+		control = transform.parent.GetComponent<PlayerControl>();
 		correction_speed = 5f * (name.Equals("LegR") ? -1f : 1f);
 		last_angle = control.getBodyAngle(name);
 		piercing_stick = transform.FindChild("sticks_" + (stick_count -1).ToString()).GetComponent<PiercePiece>();
