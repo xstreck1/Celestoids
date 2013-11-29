@@ -17,10 +17,10 @@ public class SetScores : MonoBehaviour {
 		ranks = transform.Find("ranks");
 		scores = transform.Find("scores");
 
-		ranks.Find("highscore").GetComponent<TextMesh>().text = GameState.chosen_level.best_t == 0.0f? "newly finished" : GameState.chosen_level.best_t.ToString("0.000f");
-		ranks.Find("gold").GetComponent<TextMesh>().text = GameState.chosen_level.gold_t.ToString("0.000f");
-		ranks.Find("silver").GetComponent<TextMesh>().text = GameState.chosen_level.silver_t.ToString("0.000f");
-		ranks.Find("bronze").GetComponent<TextMesh>().text = GameState.chosen_level.bronze_t.ToString("0.000f");
+		ranks.Find("highscore").GetComponent<TextMesh>().text = GameState.chosen_level.best_t == 0.0f? "newly finished" : GameState.chosen_level.best_t.ToString("0.000s");
+		ranks.Find("gold").GetComponent<TextMesh>().text = GameState.chosen_level.gold_t.ToString("0.000s");
+		ranks.Find("silver").GetComponent<TextMesh>().text = GameState.chosen_level.silver_t.ToString("0.000s");
+		ranks.Find("bronze").GetComponent<TextMesh>().text = GameState.chosen_level.bronze_t.ToString("0.000s");
 		
 		float best_score = 0.0f;
 
