@@ -1,50 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class MainMenu : MonoBehaviour {
 	public static List<string> levels;
-
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	// Update is called once per frame
 	void Update () {
 		SuperInputMapper.UpdateJoysticks();
 
-		if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_O, OuyaSDK.OuyaPlayer.player1)) {
-			Player temp = GameState.players[0];
-			temp.active = true;
-			GameState.players[0] = temp;
-			transform.Find("Bodies").Find("player1").gameObject.SetActive(true);
+		foreach (int i in Enumerable.Range(1,4)) {
+			if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_O, (OuyaSDK.OuyaPlayer) i)) {
+				Player temp = GameState.players[i - 1];
+				temp.active = true;
+				GameState.players[i - 1] = temp;
+				transform.Find("Bodies").Find("player" + i.ToString()).gameObject.SetActive(true);
+			}
 		}
 
-		if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_O, OuyaSDK.OuyaPlayer.player2)) {
-			Player temp = GameState.players[1];
-			temp.active = true;
-			GameState.players[1] = temp;
-			transform.Find("Bodies").Find("player2").gameObject.SetActive(true);
-		}
-
-		if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_O, OuyaSDK.OuyaPlayer.player3)) {
-			Player temp = GameState.players[2];
-			temp.active = true;
-			GameState.players[2] = temp;
-			transform.Find("Bodies").Find("player3").gameObject.SetActive(true);
-		}
-
-		if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_O, OuyaSDK.OuyaPlayer.player4)) {
-			Player temp = GameState.players[1];
-			temp.active = true;
-			GameState.players[1] = temp;
-			transform.Find("Bodies").Find("player4").gameObject.SetActive(true);
+		foreach (int i in Enumerable.Range(1,4)) {
+			if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_A, (OuyaSDK.OuyaPlayer) i)) {
+				Player temp = GameState.players[i - 1];
+				temp.active = false;
+				GameState.players[i - 1] = temp;
+				transform.Find("Bodies").Find("player" + i.ToString()).gameObject.SetActive(false);
+			}
 		}
 
 		if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_U)) {
-			Application.LoadLevel("intro");
+			bool enabled = false;
+			foreach (Player p in GameState.players) {
+				enabled |= p.active;
+			}
+			if (enabled)
+				Application.LoadLevel("intro");
 		}
 	}
 }
