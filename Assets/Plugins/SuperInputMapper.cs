@@ -86,7 +86,7 @@ public class SuperInputMapper {
 		{
 			return 0f;
 		}
-		int playerIndex = (int)player - 1;
+		int playerIndex = ((int)player) - 1;
 		if (playerIndex >= SuperInputMapper.Joysticks.Length)
 		{
 			return 0f;
