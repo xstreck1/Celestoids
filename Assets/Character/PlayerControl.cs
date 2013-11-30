@@ -41,6 +41,7 @@ public class PlayerControl : MonoBehaviour {
 		Vector3 camera = body.transform.position;
 		camera.z = CAM_DIST;
 		transform.FindChild("camera").transform.position = camera;
+		transform.FindChild("camera_s").transform.position = camera;
 
 		if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_Y, (OuyaSDK.OuyaPlayer) player_state.number)) {
 			disable();

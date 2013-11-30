@@ -17,10 +17,10 @@ public class SetScores : MonoBehaviour {
 		ranks = transform.Find("ranks");
 		scores = transform.Find("scores");
 
-		ranks.Find("highscore").GetComponent<TextMesh>().text = GameState.chosen_level.best_t == 0.0f? "newly finished" : GameState.chosen_level.best_t.ToString("0.000s");
-		ranks.Find("gold").GetComponent<TextMesh>().text = GameState.chosen_level.gold_t.ToString("0.000s");
-		ranks.Find("silver").GetComponent<TextMesh>().text = GameState.chosen_level.silver_t.ToString("0.000s");
-		ranks.Find("bronze").GetComponent<TextMesh>().text = GameState.chosen_level.bronze_t.ToString("0.000s");
+		ranks.Find("highscore").GetComponent<TextMesh>().text = GameState.chosen_level.best_t == 0.0f? "newly finished" : ("Best: " + GameState.chosen_level.best_t.ToString("0.000s"));
+		ranks.Find("gold").GetComponent<TextMesh>().text = "Gold: " +  GameState.chosen_level.gold_t.ToString("0.000s");
+		ranks.Find("silver").GetComponent<TextMesh>().text = "Silver: " + GameState.chosen_level.silver_t.ToString("0.000s");
+		ranks.Find("bronze").GetComponent<TextMesh>().text = "Bronze: " + GameState.chosen_level.bronze_t.ToString("0.000s");
 		
 		float best_score = 0.0f;
 
@@ -49,6 +49,8 @@ public class SetScores : MonoBehaviour {
 			PlayerPrefs.Save();
 			GameState.chosen_level.best_t = best_score;
 			transform.Find("new_highscore").gameObject.SetActive(true);
+		} else {
+			transform.Find("new_highscore").gameObject.SetActive(false);
 		}
 	}
 	

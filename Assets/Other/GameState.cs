@@ -52,7 +52,7 @@ public class GameState : MonoBehaviour {
 				players.Add(new Player("player" + i.ToString(), i, active[i - 1]));
 
 			levels = new List<GameLevel>();
-			levels.Add(new GameLevel("TEST", 10f, 15f, 20f));
+			levels.Add(new GameLevel("BEGINNING", 30f, 60f, 90f));
 			levels.Add(new GameLevel("BOXES", 10f, 15f, 20f));
 
 			chosen_level = levels.First();
