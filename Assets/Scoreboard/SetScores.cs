@@ -39,7 +39,7 @@ public class SetScores : MonoBehaviour {
 				else 
 					score = "-";
 			} else {
-				score += " : " + player.time.ToString("0.000") + "s";
+				score += ". : " + player.time.ToString("0.000") + "s";
 			}
 			scores.Find(player.name).GetComponent<TextMesh>().text = score;
 		}

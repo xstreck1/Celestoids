@@ -2,14 +2,12 @@
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEditor;
 
 public class GameControl : MonoBehaviour {
 	string level_name;
 	float top_time = float.MaxValue;
 
 	void Awake() {
-
 		GameState.init(new List<bool> {true, false, false, false}, Application.loadedLevelName);
 	}
 

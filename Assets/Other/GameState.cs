@@ -65,7 +65,7 @@ public class GameState : MonoBehaviour {
 				players.Add(new Player("player" + i.ToString(), i, active[i - 1]));
 
 			levels = new List<GameLevel>();
-			levels.Add(new GameLevel("TEST", 5f, 10f, 30f));
+			// levels.Add(new GameLevel("TEST", 5f, 10f, 30f));
 			levels.Add(new GameLevel("BEGINNING", 30f, 60f, 90f));
 			levels.Add(new GameLevel("BOX TROUBLE", 20f, 45f, 100f));
 			levels.Add(new GameLevel("DOWNWARD!", 45f, 60f, 90f));
