@@ -2,13 +2,15 @@
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class GameControl : MonoBehaviour {
 	string level_name;
 	float top_time = float.MaxValue;
 
 	void Awake() {
-		GameState.init(new List<bool> {false, false, false, true});
+
+		GameState.init(new List<bool> {true, true, false, false}, Application.loadedLevelName);
 	}
 
 	// Use this for initialization
@@ -21,11 +23,11 @@ public class GameControl : MonoBehaviour {
 		else if (top_time > GameState.chosen_level.gold_t)
 			top_time = GameState.chosen_level.gold_t;
 
-		transform.Find("record").guiText.pixelOffset = new Vector2(Screen.width  / 2f - 10f, Screen.height / 2f - 10f);
-		transform.Find("record").guiText.text = top_time == .0f ? "no best time yet" : top_time.ToString("0.00");
+		transform.Find("record").guiText.pixelOffset = new Vector2(Screen.width  / 2f - 40f, Screen.height / 2f - 20f);
+		transform.Find("record").guiText.text = top_time == .0f ? "no best time yet" : "Next Rank: "  + top_time.ToString("0.00");
 
-		transform.Find("runTime").guiText.pixelOffset = new Vector2( - Screen.width / 2f + 10f, Screen.height / 2f - 10f);
-		transform.Find("runTime").guiText.text = Time.timeSinceLevelLoad.ToString("0.00");
+		transform.Find("runTime").guiText.pixelOffset = new Vector2( - Screen.width / 2f + 40f, Screen.height / 2f - 20f);
+		transform.Find("runTime").guiText.text = "Runtime: " + Time.timeSinceLevelLoad.ToString("0.00");
 	}
 	
 	// Update is called once per frame
@@ -40,6 +42,6 @@ public class GameControl : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		transform.Find("runTime").guiText.text = Time.timeSinceLevelLoad.ToString("0.00");
+		transform.Find("runTime").guiText.text = "Runtime: " +  Time.timeSinceLevelLoad.ToString("0.00");
 	}
 }

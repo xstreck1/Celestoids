@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	void Awake() {
-		GameState.init(new List<bool> {false, false, false, false});
+		GameState.init(new List<bool> {false, false, false, false}, "BEGINNING");
 	}
 
 	void Start() {

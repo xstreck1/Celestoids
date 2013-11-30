@@ -8,7 +8,7 @@ public class SetScores : MonoBehaviour {
 	Transform scores;
 
 	void Awake() {
-		GameState.init(new List<bool> {true, false, false, false});
+		GameState.init(new List<bool> {true, false, false, false}, "TEST");
 	}
 
 	// Use this for initialization

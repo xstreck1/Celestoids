@@ -45,18 +45,24 @@ public class GameState : MonoBehaviour {
 	public static bool initialized = false;
 
 	// Use this for initialization
-	public static void init (List<bool> active) {
+	public static void init (List<bool> active, string level_to_choose) {
 		if (!initialized) {
 			players = new List<Player>();
 			foreach (int i in Enumerable.Range(1,4)) 
 				players.Add(new Player("player" + i.ToString(), i, active[i - 1]));
 
 			levels = new List<GameLevel>();
+			levels.Add(new GameLevel("TEST", 5f, 10f, 30f));
 			levels.Add(new GameLevel("BEGINNING", 30f, 60f, 90f));
 			levels.Add(new GameLevel("BOX TROUBLE", 20f, 45f, 100f));
 			levels.Add(new GameLevel("DOWNWARD!", 45f, 60f, 90f));
 
-			chosen_level = levels.First();
+			foreach (GameLevel level in levels)  {
+				if (level_to_choose.Equals(level.name)) {
+					chosen_level = level;
+					break;
+				}
+			}
 
 			rank = 1;
 			initialized = true;
@@ -64,7 +70,7 @@ public class GameState : MonoBehaviour {
 	}
 
 	public static void nullify() {
-		foreach (int i in Enumerable.Range(0,3)) {
+		foreach (int i in Enumerable.Range(0,4)) {
 			Player temp = players[i];
 			temp.finished = false;
 			temp.time = 0f;
