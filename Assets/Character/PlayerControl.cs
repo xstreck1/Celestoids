@@ -74,7 +74,7 @@ public class PlayerControl : MonoBehaviour {
 		transform.Find("LegL").gameObject.SetActive(false);
 		transform.Find("LegR").gameObject.SetActive(false);
 		player_state.finished = true;
-		foreach (int i in Enumerable.Range(0,3)) {
+		foreach (int i in Enumerable.Range(0,4)) {
 			if (GameState.players[i].name.Equals(name)) {
 				GameState.players[i] = player_state;
 			}
