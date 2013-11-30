@@ -8,7 +8,7 @@ public class GameControl : MonoBehaviour {
 	float top_time = float.MaxValue;
 
 	void Awake() {
-		GameState.init(new List<bool> {false, false, true, false});
+		GameState.init(new List<bool> {true, false, false, false});
 	}
 
 	// Use this for initialization

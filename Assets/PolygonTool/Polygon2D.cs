@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(PolygonCollider2D))]
 [AddComponentMenu("Mesh/Polygon2D")]
 public class Polygon2D : MonoBehaviour {
 	
