@@ -47,7 +47,9 @@ public class SetScores : MonoBehaviour {
 		if (best_score != 0.0f && (best_score < GameState.chosen_level.best_t || GameState.chosen_level.best_t == 0.0f)) {
 			PlayerPrefs.SetFloat(GameState.chosen_level.name, best_score);
 			PlayerPrefs.Save();
+			int current_index = GameState.levels.IndexOf(GameState.chosen_level);
 			GameState.chosen_level.best_t = best_score;
+			GameState.levels[current_index] = GameState.chosen_level;
 			transform.Find("new_highscore").gameObject.SetActive(true);
 		} else {
 			transform.Find("new_highscore").gameObject.SetActive(false);

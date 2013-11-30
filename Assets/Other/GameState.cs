@@ -30,10 +30,23 @@ public struct GameLevel {
 
 	public GameLevel(string name, float gold_t, float silver_t, float bronze_t) {
 		this.name = name;
+		this.best_t = PlayerPrefs.GetFloat(name, 0.0f);
 		this.gold_t = gold_t;
 		this.silver_t = silver_t;
 		this.bronze_t = bronze_t;
-		this.best_t = PlayerPrefs.GetFloat(name, 0.0f);
+	}
+
+	public Color getColor() {
+		if (best_t == 0.0f) 
+			return new Color(255,255,255);
+		else if (best_t < gold_t)
+			return new Color(225,215,0);
+		else if (best_t < silver_t)
+			return new Color(230,232,250);
+		else if (best_t < bronze_t)
+			return new Color(140,120,83);
+		else 
+			return new Color(255,255,255);
 	}
 }
 

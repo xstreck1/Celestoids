@@ -10,7 +10,7 @@ public class GameControl : MonoBehaviour {
 
 	void Awake() {
 
-		GameState.init(new List<bool> {true, true, false, false}, Application.loadedLevelName);
+		GameState.init(new List<bool> {true, false, false, false}, Application.loadedLevelName);
 	}
 
 	// Use this for initialization

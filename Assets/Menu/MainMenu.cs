@@ -6,7 +6,8 @@ using System.Linq;
 public class MainMenu : MonoBehaviour {
 
 	void setName() {
-		transform.Find("level_name").GetComponent<TextMesh>().text = GameState.chosen_level.name;		
+		transform.Find("level_name").GetComponent<TextMesh>().text = GameState.chosen_level.name;
+		transform.Find("level_name").GetComponent<TextMesh>().color = GameState.chosen_level.getColor();
 	}
 
 	void Awake() {

@@ -23,6 +23,8 @@ public class Movement : MonoBehaviour
 	private ConnectPiece connecting_stick;
 
 	private int player_input;
+
+	private bool in_collision_body;
 	
 	// Use this for initialization
 	void Start ()
@@ -41,11 +43,12 @@ public class Movement : MonoBehaviour
 		last_angle = control.getBodyAngle(name);
 		piercing_stick = transform.FindChild("sticks_" + (stick_count -1).ToString()).GetComponent<PiercePiece>();
 		connecting_stick = transform.FindChild("sticks_" + (stick_count).ToString()).GetComponent<ConnectPiece>();
+		in_collision_body = false;
 	}
 
 	void rollLeg(float vertical) {
 		// Control if extending is possible (the stick does not pierce the wheel or the leg is not screwing the body.
-		if (vertical > 0f && (piercing_stick.in_collision || control.getAxisAngle(name) < 20f))
+		if (vertical > 0f && (piercing_stick.in_collision || control.getAxisAngle(name) < 20f || in_collision_body))
 			return;
 		if (vertical < 0f && !connecting_stick.in_collision)
 			return;
@@ -108,5 +111,15 @@ public class Movement : MonoBehaviour
 
 		float wheel_brake = (name.Equals("LegR") ? SuperInputMapper.GetAxis("RT", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LT", (OuyaSDK.OuyaPlayer)  player_input));
 		brakeWheel(wheel_brake);
+	}
+
+	void OnCollisionEnter2D(Collision2D collision2d) {
+		if (collision2d.gameObject.name.Equals("body_front"))
+			in_collision_body = true;
+	}
+	
+	void OnCollisionExit2D(Collision2D collision2d) {
+		if (collision2d.gameObject.name.Equals("body_front"))
+			in_collision_body = false;
 	}
 }
