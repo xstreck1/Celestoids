@@ -13,6 +13,7 @@ public class Finish : MonoBehaviour {
 	void Update () {
 	}
 
+	// End if the finish gets hit
 	public void OnTriggerEnter2D(Collider2D collider) {
 		Debug.Log(collider.tag);
 		if (collider.tag.Equals("Finish")) {
