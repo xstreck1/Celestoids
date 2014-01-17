@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Controls if the last piece is connected to the wheel
 public class ConnectPiece : MonoBehaviour {
 	
 	public bool in_collision;

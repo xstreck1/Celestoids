@@ -12,27 +12,12 @@ public class PlayerControl : MonoBehaviour {
 	void Start () {
 		body = transform.Find("Body");
 
-		int player_count = 0;
-
 		// Attach player
 		foreach (Player player in GameState.players) {
-			player_count += player.active ? 1 : 0;
-
 			if (player.name.Equals(name)) {
 				player_state = player;
 			}
 		}
-
-		// Start camera and player, if required
-		gameObject.SetActive(player_state.active);
-		if (player_count == 1) {
-			transform.Find("camera").gameObject.SetActive(true);
-			transform.Find("camera_s").gameObject.SetActive(false);
-		} else {
-			transform.Find("camera").gameObject.SetActive(false);
-			transform.Find("camera_s").gameObject.SetActive(true);
-		}
-
 	}
 
 	// Update is called once per frame
@@ -41,7 +26,7 @@ public class PlayerControl : MonoBehaviour {
 		Vector3 camera = body.transform.position;
 		camera.z = CAM_DIST;
 		transform.FindChild("camera").transform.position = camera;
-		transform.FindChild("camera_s").transform.position = camera;
+		// transform.FindChild("camera_s").transform.position = camera;
 
 		if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_Y, (OuyaSDK.OuyaPlayer) player_state.number)) {
 			disable();

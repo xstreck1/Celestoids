@@ -7,12 +7,60 @@ public class GameControl : MonoBehaviour {
 	string level_name;
 	float top_time = float.MaxValue;
 
+	Rect computePlayerCamera(int player_count, int player_no) {
+		if (player_count == 1) {
+			return new Rect (0f, 0f, 1f, 1f);	
+		} else if (player_count == 2) {
+			return new Rect(0f, 0.505f * (player_no % 2),1f, 0.495f);
+		} else {
+			return new Rect(0.505f * (player_no % 2), 0.505f * ((player_no / 2) % 2), 0.495f,0.495f);
+		}
+	}
+
+	void InstantiateGameObjects() {
+		int player_count = 0;
+		foreach (Player player in GameState.players) 
+			player_count += player.active ? 1 : 0;
+
+		float translate_width = 200f;
+		int player_no = 0;
+		// Instantiate 
+		foreach (Player player in GameState.players) {
+
+			if (!player.active)
+				continue;
+
+			GameObject player_obj = GameObject.Find(player.name);
+
+			GameObject level_obj = (GameObject) Instantiate(GameObject.Find("Level"));
+			level_obj.transform.Translate(Vector3.right * translate_width * player_no);
+			GameObject ref_player = GameObject.Find("player1");
+
+			player_obj.transform.position = ref_player.transform.position;
+			player_obj.transform.rotation = player_obj.transform.rotation;
+			player_obj.transform.Translate(Vector3.right * translate_width * player_no);
+
+			player_obj.transform.Find("camera").GetComponent<Camera>().rect = computePlayerCamera(player_count, player_no);
+			player_no++;
+
+		}
+
+		foreach (Player player in GameState.players) 
+			if (!player.active)
+				GameObject.Find(player.name).SetActive(false);
+
+		((GameObject) GameObject.Find("Level")).SetActive(false);
+	}
+
 	void Awake() {
-		GameState.init(new List<bool> {true, false, false, false}, Application.loadedLevelName);
+		// Initialize the game if it was not already, otherwise this conducts instantiation of the level
+		GameState.init(new List<bool> {false, false, false, true}, Application.loadedLevelName);
 	}
 
 	// Use this for initialization
 	void Start () {
+		InstantiateGameObjects();
+
 		top_time = GameState.chosen_level.best_t == 0.0f ? float.MaxValue : GameState.chosen_level.best_t;
 		if (top_time > GameState.chosen_level.bronze_t) 
 			top_time = GameState.chosen_level.bronze_t;

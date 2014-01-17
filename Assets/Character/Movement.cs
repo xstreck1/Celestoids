@@ -10,7 +10,7 @@ public class Movement : MonoBehaviour
 	private float roll_out = 0f;
 
 	private float rotation_speed = 75f;
-	private float correction_speed;
+	private float correction_speed; // This determines how fast will the leg try to move againts pressure
 
 	private float last_angle = 0f;
 
@@ -50,6 +50,7 @@ public class Movement : MonoBehaviour
 		// Control if extending is possible (the stick does not pierce the wheel or the leg is not screwing the body.
 		if (vertical > 0f && (piercing_stick.in_collision || control.getAxisAngle(name) < 20f || in_collision_body))
 			return;
+		// Contol if retracting is possible (the last stick is connected to the wheel optically)
 		if (vertical < 0f && !connecting_stick.in_collision)
 			return;
 
@@ -70,8 +71,12 @@ public class Movement : MonoBehaviour
 	}
 
 	bool valid_angle(float horizontal) {
-		bool valid_left = name.Equals("LegL") && ((horizontal < 0f && !control.isFixed("LegL", true)) || (horizontal > 0f && !control.isFixed("LegL", false)));
-		bool valid_right = name.Equals("LegR") && ((horizontal > 0f && !control.isFixed("LegR", true)) || (horizontal < 0f && !control.isFixed("LegR", false)));
+		bool valid_left = name.Equals("LegL") && 
+			((horizontal < 0f && !control.isFixed("LegL", true)) || 
+			 (horizontal > 0f && !control.isFixed("LegL", false)));
+		bool valid_right = name.Equals("LegR") && 
+			((horizontal > 0f && !control.isFixed("LegR", true)) || 
+			 (horizontal < 0f && !control.isFixed("LegR", false)));
 		return valid_left || valid_right;
 	}
 
@@ -113,6 +118,8 @@ public class Movement : MonoBehaviour
 		brakeWheel(wheel_brake);
 	}
 
+
+	// Control that body is not in collision with the leg.
 	void OnCollisionEnter2D(Collision2D collision2d) {
 		if (collision2d.gameObject.name.Equals("body_front"))
 			in_collision_body = true;
