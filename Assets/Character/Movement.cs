@@ -6,18 +6,15 @@ public class Movement : MonoBehaviour
 	private int stick_count = 7;
 	private float roll_speed = 0.015f;
 	private float roll_bound = 8.0f;
-	
-	private float roll_out = 0f;
+	private float roll_out = 0f; // Compared with the bound
 
 	private float rotation_speed = 75f;
 	private float correction_speed; // This determines how fast will the leg try to move againts pressure
-
-	private float last_angle = 0f;
+	private float last_angle = 0f; // The last angle of the leg w.r.t. the body (used for correction)
 
 	PlayerControl control;
 	private HingeJoint2D hingeJoint2D;
 	private JointMotor2D hingeMotor2D;
-	private Vector3 connected_anchror;
 	
 	private PiercePiece piercing_stick;
 	private ConnectPiece connecting_stick;
@@ -33,7 +30,6 @@ public class Movement : MonoBehaviour
 		foreach (Player player in GameState.players) {		
 			if (player.name.Equals(transform.parent.name)) {
 				player_input = player.number;
-				Debug.Log(player_input);
 			}
 		}
 		hingeJoint2D = GetComponent<HingeJoint2D>();
@@ -46,6 +42,7 @@ public class Movement : MonoBehaviour
 		in_collision_body = false;
 	}
 
+	// Roll up or down with the sticks.
 	void rollLeg(float vertical) {
 		// Control if extending is possible (the stick does not pierce the wheel or the leg is not screwing the body.
 		if (vertical > 0f && (piercing_stick.in_collision || control.getAxisAngle(name) < 20f || in_collision_body))
@@ -62,14 +59,15 @@ public class Movement : MonoBehaviour
 		transform.Find ("sticks_" + stick_count.ToString ()).Translate (roll_lenght * Vector3.down);
 
 		// Move wheel
-		connected_anchror = transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor;
+		Vector3 connected_anchror = transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor;
 		connected_anchror.y -= roll_lenght;
 		transform.Find("wheel").GetComponent<HingeJoint2D>().connectedAnchor = connected_anchror;
 
-		// Make boundry
+		// Update current status
 		roll_out += roll_lenght;
 	}
 
+	// Return true only if the leg is in an angle that's allowed for rotation (in either direction).
 	bool valid_angle(float horizontal) {
 		bool valid_left = name.Equals("LegL") && 
 			((horizontal < 0f && !control.isFixed("LegL", true)) || 
@@ -80,6 +78,7 @@ public class Movement : MonoBehaviour
 		return valid_left || valid_right;
 	}
 
+	// Rotate the leg
 	void turnLeg(float horizontal) {
 		hingeMotor2D.motorSpeed = 0f;
 		if (horizontal != 0f && valid_angle(horizontal)) {
@@ -92,6 +91,7 @@ public class Movement : MonoBehaviour
 		hingeJoint2D.motor = hingeMotor2D;
 	}
 
+	// set a drag on the wheel if there is a weak braking, else fix the angle of the wheel
 	void brakeWheel(float brake) {
 		transform.Find("wheel").rigidbody2D.fixedAngle = false;
 
@@ -104,7 +104,7 @@ public class Movement : MonoBehaviour
 	}
 
 
-	// Update is called once per frame
+	// Input is obtained in the fixed update
 	void FixedUpdate ()
 	{
 		float vertical = -1 * (name.Equals("LegR") ?  SuperInputMapper.GetAxis("RY", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LY", (OuyaSDK.OuyaPlayer)  player_input));

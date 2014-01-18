@@ -5,31 +5,16 @@ using System.Collections.Generic;
 
 public class GameControl : MonoBehaviour {
 	string level_name;
-	float top_time = float.MaxValue; // This will store the best time that has been achieved up till now.
 	public float translate_width = 200f; // The width of the level - needs to be set manually 
 
 	void Awake() {
 		// Initialize the game if it was not already, otherwise this conducts instantiation of the level
-		GameState.init(new List<bool> {false, false, false, true}, Application.loadedLevelName);
+		GameState.init(new List<bool> {true, false, false, false}, Application.loadedLevelName);
 	}
 
 	// Use this for initialization
 	void Start () {
 		InstantiateGameObjects();
-
-		top_time = GameState.chosen_level.best_t == 0.0f ? float.MaxValue : GameState.chosen_level.best_t;
-		if (top_time > GameState.chosen_level.bronze_t) 
-			top_time = GameState.chosen_level.bronze_t;
-		else if (top_time > GameState.chosen_level.silver_t)
-			top_time = GameState.chosen_level.silver_t;
-		else if (top_time > GameState.chosen_level.gold_t)
-			top_time = GameState.chosen_level.gold_t;
-
-		transform.Find("record").guiText.pixelOffset = new Vector2(Screen.width  / 2f - 40f, Screen.height / 2f - 20f);
-		transform.Find("record").guiText.text = top_time == .0f ? "no best time yet" : "Next Rank: "  + top_time.ToString("0.00");
-
-		transform.Find("runTime").guiText.pixelOffset = new Vector2( - Screen.width / 2f + 40f, Screen.height / 2f - 20f);
-		transform.Find("runTime").guiText.text = "Runtime: " + Time.timeSinceLevelLoad.ToString("0.00");
 	}
 	
 	// Update is called once per frame
@@ -41,10 +26,6 @@ public class GameControl : MonoBehaviour {
 		}
 		if (finish)
 			Application.LoadLevel("scoreboard");
-	}
-
-	void OnGUI() {
-		transform.Find("runTime").guiText.text = "Runtime: " +  Time.timeSinceLevelLoad.ToString("0.00");
 	}
 
 	// Position the camera based on the id of the player and the total number of players
@@ -68,29 +49,26 @@ public class GameControl : MonoBehaviour {
 		int player_no = 0;
 		// Instantiate 
 		foreach (Player player in GameState.players) {
-			
 			if (!player.active)
 				continue;
-			
-			GameObject player_obj = GameObject.Find(player.name);
-			
+
 			GameObject level_obj = (GameObject) Instantiate(GameObject.Find("Level"));
 			level_obj.transform.Translate(Vector3.right * translate_width * player_no);
+
+			GameObject player_obj = GameObject.Find(player.name);
 			GameObject ref_player = GameObject.Find("player1");
-			
 			player_obj.transform.position = ref_player.transform.position;
 			player_obj.transform.rotation = player_obj.transform.rotation;
 			player_obj.transform.Translate(Vector3.right * translate_width * player_no);
 			
 			player_obj.transform.Find("camera").GetComponent<Camera>().rect = computePlayerCamera(player_count, player_no);
 			player_no++;
-			
 		}
 		
 		foreach (Player player in GameState.players) 
 			if (!player.active)
 				GameObject.Find(player.name).SetActive(false);
 		
-		((GameObject) GameObject.Find("Level")).SetActive(false);
+		GameObject.Find("Level").SetActive(false);
 	}
 }

@@ -17,7 +17,7 @@ public class Finish : MonoBehaviour {
 	public void OnTriggerEnter2D(Collider2D collider) {
 		Debug.Log(collider.tag);
 		if (collider.tag.Equals("Finish")) {
-			control.finished();
+			control.finish();
 		}
 	}
 }
