@@ -69,6 +69,7 @@ public class GameState : MonoBehaviour {
 			levels.Add(new GameLevel("BEGINNING", 30f, 60f, 90f));
 			levels.Add(new GameLevel("BOX TROUBLE", 20f, 45f, 100f));
 			levels.Add(new GameLevel("DOWNWARD!", 45f, 60f, 90f));
+			levels.Add(new GameLevel("TEST", 1f, 2f, 3f));
 
 			foreach (GameLevel level in levels)  {
 				if (level_to_choose.Equals(level.name)) {
