@@ -5,52 +5,8 @@ using System.Collections.Generic;
 
 public class GameControl : MonoBehaviour {
 	string level_name;
-	float top_time = float.MaxValue;
-
-	Rect computePlayerCamera(int player_count, int player_no) {
-		if (player_count == 1) {
-			return new Rect (0f, 0f, 1f, 1f);	
-		} else if (player_count == 2) {
-			return new Rect(0f, 0.505f * (player_no % 2),1f, 0.495f);
-		} else {
-			return new Rect(0.505f * (player_no % 2), 0.505f * ((player_no / 2) % 2), 0.495f,0.495f);
-		}
-	}
-
-	void InstantiateGameObjects() {
-		int player_count = 0;
-		foreach (Player player in GameState.players) 
-			player_count += player.active ? 1 : 0;
-
-		float translate_width = 200f;
-		int player_no = 0;
-		// Instantiate 
-		foreach (Player player in GameState.players) {
-
-			if (!player.active)
-				continue;
-
-			GameObject player_obj = GameObject.Find(player.name);
-
-			GameObject level_obj = (GameObject) Instantiate(GameObject.Find("Level"));
-			level_obj.transform.Translate(Vector3.right * translate_width * player_no);
-			GameObject ref_player = GameObject.Find("player1");
-
-			player_obj.transform.position = ref_player.transform.position;
-			player_obj.transform.rotation = player_obj.transform.rotation;
-			player_obj.transform.Translate(Vector3.right * translate_width * player_no);
-
-			player_obj.transform.Find("camera").GetComponent<Camera>().rect = computePlayerCamera(player_count, player_no);
-			player_no++;
-
-		}
-
-		foreach (Player player in GameState.players) 
-			if (!player.active)
-				GameObject.Find(player.name).SetActive(false);
-
-		((GameObject) GameObject.Find("Level")).SetActive(false);
-	}
+	float top_time = float.MaxValue; // This will store the best time that has been achieved up till now.
+	public float translate_width = 200f; // The width of the level - needs to be set manually 
 
 	void Awake() {
 		// Initialize the game if it was not already, otherwise this conducts instantiation of the level
@@ -89,5 +45,52 @@ public class GameControl : MonoBehaviour {
 
 	void OnGUI() {
 		transform.Find("runTime").guiText.text = "Runtime: " +  Time.timeSinceLevelLoad.ToString("0.00");
+	}
+
+	// Position the camera based on the id of the player and the total number of players
+	Rect computePlayerCamera(int player_count, int player_no) {
+		if (player_count == 1) {
+			return new Rect (0f, 0f, 1f, 1f);	
+		} else if (player_count == 2) {
+			return new Rect(0f, 0.505f * (player_no % 2),1f, 0.495f);
+		} else {
+			return new Rect(0.505f * (player_no % 2), 0.505f * ((player_no / 2) % 2), 0.495f,0.495f);
+		}
+	}
+	
+	// Enable players and duplicate the level.
+	void InstantiateGameObjects() {
+		int player_count = 0;
+		foreach (Player player in GameState.players) 
+			player_count += player.active ? 1 : 0;
+		
+		
+		int player_no = 0;
+		// Instantiate 
+		foreach (Player player in GameState.players) {
+			
+			if (!player.active)
+				continue;
+			
+			GameObject player_obj = GameObject.Find(player.name);
+			
+			GameObject level_obj = (GameObject) Instantiate(GameObject.Find("Level"));
+			level_obj.transform.Translate(Vector3.right * translate_width * player_no);
+			GameObject ref_player = GameObject.Find("player1");
+			
+			player_obj.transform.position = ref_player.transform.position;
+			player_obj.transform.rotation = player_obj.transform.rotation;
+			player_obj.transform.Translate(Vector3.right * translate_width * player_no);
+			
+			player_obj.transform.Find("camera").GetComponent<Camera>().rect = computePlayerCamera(player_count, player_no);
+			player_no++;
+			
+		}
+		
+		foreach (Player player in GameState.players) 
+			if (!player.active)
+				GameObject.Find(player.name).SetActive(false);
+		
+		((GameObject) GameObject.Find("Level")).SetActive(false);
 	}
 }
