@@ -28,14 +28,22 @@ public struct GameLevel {
 	public float silver_t;
 	public float bronze_t;
 	public float best_t;
+	public bool choosable; // True if this level appears in the menu
+	public bool rotation_allowed;
+	public bool extension_allowed;
+	public bool break_allowed;
 
-	public GameLevel(int ID, string name, float gold_t, float silver_t, float bronze_t) {
+	public GameLevel(int ID, string name, bool choosable, float gold_t, float silver_t, float bronze_t, bool rotation_allowed, bool extension_allowed, bool break_allowed) {
 		this.ID = ID;
 		this.name = name;
 		this.best_t = PlayerPrefs.GetFloat(name, 0.0f);
 		this.gold_t = gold_t;
 		this.silver_t = silver_t;
 		this.bronze_t = bronze_t;
+		this.choosable = choosable;
+		this.rotation_allowed = rotation_allowed;
+		this.extension_allowed = extension_allowed;
+		this.break_allowed = break_allowed;
 	}
 }
 
@@ -54,11 +62,12 @@ public class GameState : MonoBehaviour {
 				players.Add(new Player("player" + i.ToString(), i, active[i - 1]));
 
 			levels = new List<GameLevel>();
-			// levels.Add(new GameLevel("TEST", 5f, 10f, 30f));
-			levels.Add(new GameLevel(levels.Count(), "BEGINNING", 30f, 60f, 90f));
-			levels.Add(new GameLevel(levels.Count(), "BOX TROUBLE", 20f, 45f, 100f));
-			levels.Add(new GameLevel(levels.Count(), "DOWNWARD!", 45f, 60f, 90f));
-			levels.Add(new GameLevel(levels.Count(), "TEST", 1f, 2f, 3f));
+			levels.Add(new GameLevel(levels.Count(), "TUTORIAL", true, 30f, 60f, 90f, false, false, false));
+			levels.Add(new GameLevel(levels.Count(), "BEGINNING", true, 30f, 60f, 90f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "BOX TROUBLE", true, 20f, 45f, 100f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "DOWNWARD!", true, 45f, 60f, 90f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "TEST", false, 1f, 2f, 3f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_1", false, 1f, 2f, 3f, true, true, false));
 
 			foreach (GameLevel level in levels)  {
 				if (level_to_choose.Equals(level.name)) {

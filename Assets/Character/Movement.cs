@@ -107,15 +107,21 @@ public class Movement : MonoBehaviour
 	// Input is obtained in the fixed update
 	void FixedUpdate ()
 	{
-		float vertical = -1 * (name.Equals("LegR") ?  SuperInputMapper.GetAxis("RY", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LY", (OuyaSDK.OuyaPlayer)  player_input));
-		if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f)) 
-			rollLeg(vertical);
+		if (GameState.chosen_level.extension_allowed) {
+			float vertical = -1 * (name.Equals("LegR") ?  SuperInputMapper.GetAxis("RY", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LY", (OuyaSDK.OuyaPlayer)  player_input));
+			if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f))
+				rollLeg(vertical);
+		}
 
-		float horizontal = name.Equals("LegR") ? SuperInputMapper.GetAxis("RX", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LX", (OuyaSDK.OuyaPlayer)  player_input);
-		turnLeg(-1 * horizontal);
+		if (GameState.chosen_level.rotation_allowed) {
+			float horizontal = name.Equals("LegR") ? SuperInputMapper.GetAxis("RX", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LX", (OuyaSDK.OuyaPlayer)  player_input);
+			turnLeg(-1 * horizontal);
+		}
 
-		float wheel_brake = (name.Equals("LegR") ? SuperInputMapper.GetAxis("RT", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LT", (OuyaSDK.OuyaPlayer)  player_input));
-		brakeWheel(wheel_brake);
+		if (GameState.chosen_level.break_allowed) {
+			float wheel_brake = (name.Equals("LegR") ? SuperInputMapper.GetAxis("RT", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LT", (OuyaSDK.OuyaPlayer)  player_input));
+			brakeWheel(wheel_brake);
+		}
 	}
 
 

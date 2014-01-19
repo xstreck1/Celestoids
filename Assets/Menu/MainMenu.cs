@@ -9,11 +9,11 @@ public class MainMenu : MonoBehaviour {
 		if (level.best_t == 0.0f) 
 			return new Color(0.35f,0.35f,0.35f);
 		else if (level.best_t < level.gold_t)
-			return new Color(225,215,0);
+			return new Color(0.9f,0.85f,0f);
 		else if (level.best_t < level.silver_t)
-			return new Color(230,232,250);
+			return new Color(0.8f,0.85f,0.96f);
 		else if (level.best_t < level.bronze_t)
-			return new Color(140,120,83);
+			return new Color(0.6f,0.45f,0.33f);
 		else 
 			return new Color(0.35f,0.35f,0.35f);
 	}
@@ -77,7 +77,7 @@ public class MainMenu : MonoBehaviour {
 				GameState.chosen_level = GameState.levels[current_index];
 				setName();
 			} // Next level
-			else 	if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_RB, (OuyaSDK.OuyaPlayer) i)) {
+			else if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_RB, (OuyaSDK.OuyaPlayer) i)) {
 				current_index = (current_index == GameState.levels.Count() - 1) ? 0 : current_index + 1;
 				GameState.chosen_level = GameState.levels[current_index];
 				setName();

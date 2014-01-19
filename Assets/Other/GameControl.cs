@@ -54,8 +54,11 @@ public class GameControl : MonoBehaviour {
 		foreach (Player player in GameState.players) {
 			finish &= (player.finished || !player.active);
 		}
-		if (finish)
+
+		if (finish && !GameState.chosen_level.name.Contains("TUTORIAL"))
 			Application.LoadLevel("scoreboard");
+		else if (finish && GameState.chosen_level.name.Contains("TUTORIAL"))
+			finishTutorial();
 	}
 
 	int countPlayers() {
@@ -84,6 +87,21 @@ public class GameControl : MonoBehaviour {
 			return 14f;
 		} else {
 			return 16f;
+		}
+	}
+
+	void finishTutorial() {
+		bool finished = GameState.players [0].rank != 0; // True if the player reached the flag.
+		switch (GameState.chosen_level.name) {
+		case "TUTORIAL":
+			Application.LoadLevel("TUTORIAL_1");
+			return;
+		case "TUTORIAL_1":
+			if (finished)
+				Application.LoadLevel("TUTORIAL_2");
+			else 
+				Application.LoadLevel("TUTORIAL_1");
+			return;
 		}
 	}
 }
