@@ -19,7 +19,7 @@ public class Movement : MonoBehaviour
 	private PiercePiece piercing_stick;
 	private ConnectPiece connecting_stick;
 
-	private int player_input;
+	private int player_input; // ID of the player used in queries for controls
 
 	private bool in_collision_body;
 	

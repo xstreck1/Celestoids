@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour {
 
 	Color getColor(GameLevel level) {
 		if (level.best_t == 0.0f) 
-			return new Color(255,255,255);
+			return new Color(0.35f,0.35f,0.35f);
 		else if (level.best_t < level.gold_t)
 			return new Color(225,215,0);
 		else if (level.best_t < level.silver_t)
@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour {
 		else if (level.best_t < level.bronze_t)
 			return new Color(140,120,83);
 		else 
-			return new Color(255,255,255);
+			return new Color(0.35f,0.35f,0.35f);
 	}
 
 	void setMedal(GameLevel level) {
@@ -35,7 +35,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	void setName() {
-		transform.Find("level_name").GetComponent<TextMesh>().text = GameState.chosen_level.name;
+		transform.Find("level_name").GetComponent<TextMesh>().text = GameState.chosen_level.ID.ToString() + ". " + GameState.chosen_level.name;
 		transform.Find("level_name").GetComponent<TextMesh>().color = getColor(GameState.chosen_level);
 		setMedal (GameState.chosen_level);
 	}

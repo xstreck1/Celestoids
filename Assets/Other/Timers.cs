@@ -22,7 +22,7 @@ public class Timers : MonoBehaviour {
 		record = transform.Find ("record").guiText;
 		record.fontSize = FONST_SIZE;
 		record.pixelOffset = new Vector2(Screen.width  / 2f - 40f, Screen.height / 2f - 20f);
-		record.text = top_time == .0f ? "no best time yet" : "Next Rank: "  + top_time.ToString("0.00");
+		record.text = top_time == .0f ? "no best time yet" : "Next medal: "  + top_time.ToString("0.00");
 
 		runtime = transform.Find ("runTime").guiText;
 		runtime.fontSize = FONST_SIZE;

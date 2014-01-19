@@ -22,13 +22,15 @@ public struct Player {
 }
 
 public struct GameLevel {
+	public int ID;
 	public string name;
 	public float gold_t;
 	public float silver_t;
 	public float bronze_t;
 	public float best_t;
 
-	public GameLevel(string name, float gold_t, float silver_t, float bronze_t) {
+	public GameLevel(int ID, string name, float gold_t, float silver_t, float bronze_t) {
+		this.ID = ID;
 		this.name = name;
 		this.best_t = PlayerPrefs.GetFloat(name, 0.0f);
 		this.gold_t = gold_t;
@@ -53,10 +55,10 @@ public class GameState : MonoBehaviour {
 
 			levels = new List<GameLevel>();
 			// levels.Add(new GameLevel("TEST", 5f, 10f, 30f));
-			levels.Add(new GameLevel("BEGINNING", 30f, 60f, 90f));
-			levels.Add(new GameLevel("BOX TROUBLE", 20f, 45f, 100f));
-			levels.Add(new GameLevel("DOWNWARD!", 45f, 60f, 90f));
-			levels.Add(new GameLevel("TEST", 1f, 2f, 3f));
+			levels.Add(new GameLevel(levels.Count(), "BEGINNING", 30f, 60f, 90f));
+			levels.Add(new GameLevel(levels.Count(), "BOX TROUBLE", 20f, 45f, 100f));
+			levels.Add(new GameLevel(levels.Count(), "DOWNWARD!", 45f, 60f, 90f));
+			levels.Add(new GameLevel(levels.Count(), "TEST", 1f, 2f, 3f));
 
 			foreach (GameLevel level in levels)  {
 				if (level_to_choose.Equals(level.name)) {

@@ -7,16 +7,9 @@ public class GameControl : MonoBehaviour {
 	string level_name;
 	public float translate_width = 200f; // The width of the level - needs to be set manually 
 
-	int countPlayers() {
-		int player_count = 0;
-		foreach (Player player in GameState.players) 
-			player_count += player.active ? 1 : 0;
-		return player_count;
-	}
-
 	void Awake() {
 		// Initialize the game if it was not already, otherwise this conducts instantiation of the level
-		GameState.init(new List<bool> {true, true, false, false}, Application.loadedLevelName);
+		GameState.init(new List<bool> {true, false, false, false}, Application.loadedLevelName);
 		// Disable counter
 		if (countPlayers() > 1) {
 			GetComponent<Timers> ().enabled = false;
@@ -63,6 +56,13 @@ public class GameControl : MonoBehaviour {
 		}
 		if (finish)
 			Application.LoadLevel("scoreboard");
+	}
+
+	int countPlayers() {
+		int player_count = 0;
+		foreach (Player player in GameState.players) 
+			player_count += player.active ? 1 : 0;
+		return player_count;
 	}
 
 	// Position the camera based on the id of the player and the total number of players
