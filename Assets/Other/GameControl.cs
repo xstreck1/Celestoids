@@ -94,9 +94,11 @@ public class GameControl : MonoBehaviour {
 		bool finished = GameState.players [0].rank != 0; // True if the player reached the flag.
 		switch (GameState.chosen_level.name) {
 		case "TUTORIAL":
+			GameState.nullify();
 			Application.LoadLevel("TUTORIAL_1");
 			return;
 		case "TUTORIAL_1":
+			GameState.nullify();
 			if (finished)
 				Application.LoadLevel("TUTORIAL_2");
 			else 
