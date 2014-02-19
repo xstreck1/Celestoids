@@ -69,6 +69,8 @@ public class GameState : MonoBehaviour {
 			levels.Add(new GameLevel(levels.Count(), "TEST", false, 1f, 2f, 3f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_1", false, 1f, 2f, 3f, true, true, false));
 			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_2", false, 1f, 2f, 3f, true, true, false));
+			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_3", false, 1f, 2f, 3f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_4", false, 1f, 2f, 3f, true, true, true));
 
 			foreach (GameLevel level in levels)  {
 				if (level_to_choose.Equals(level.name)) {
