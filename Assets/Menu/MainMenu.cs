@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class MainMenu : MonoBehaviour {
+	readonly int TUTORIAL_COUNT = 5;
 
 	Color getColor(GameLevel level) {
 		if (level.best_t == 0.0f) 
@@ -73,12 +74,12 @@ public class MainMenu : MonoBehaviour {
 			// Previous level
 			int current_index = GameState.levels.IndexOf(GameState.chosen_level);
 			if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_LB, (OuyaSDK.OuyaPlayer) i)) {
-				current_index = (current_index == 0) ? (GameState.levels.Count() - 1) : current_index - 1;
+				current_index = (current_index == 0) ? (GameState.levels.Count() - TUTORIAL_COUNT - 1) : current_index - 1;
 				GameState.chosen_level = GameState.levels[current_index];
 				setName();
 			} // Next level
 			else if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_RB, (OuyaSDK.OuyaPlayer) i)) {
-				current_index = (current_index == GameState.levels.Count() - 1) ? 0 : current_index + 1;
+				current_index = (current_index == GameState.levels.Count() - TUTORIAL_COUNT - 1) ? 0 : current_index + 1;
 				GameState.chosen_level = GameState.levels[current_index];
 				setName();
 			}

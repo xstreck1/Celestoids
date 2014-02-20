@@ -104,6 +104,27 @@ public class GameControl : MonoBehaviour {
 			else 
 				Application.LoadLevel("TUTORIAL_1");
 			return;
+		case "TUTORIAL_2":
+			GameState.nullify();
+			if (finished)
+				Application.LoadLevel("TUTORIAL_3");
+			else 
+				Application.LoadLevel("TUTORIAL_2");
+			return;
+		case "TUTORIAL_3":
+			GameState.nullify();
+			if (finished)
+				Application.LoadLevel("TUTORIAL_4");
+			else 
+				Application.LoadLevel("TUTORIAL_3");
+			return;
+		case "TUTORIAL_4":
+			GameState.nullify();
+			if (finished)
+				Application.LoadLevel("MAIN_MENU");
+			else 
+				Application.LoadLevel("TUTORIAL_3");
+			return;
 		}
 	}
 }
