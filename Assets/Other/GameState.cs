@@ -64,8 +64,11 @@ public class GameState : MonoBehaviour {
 			levels = new List<GameLevel>();
 			levels.Add(new GameLevel(levels.Count(), "TUTORIAL", true, 30f, 60f, 90f, false, false, false));
 			levels.Add(new GameLevel(levels.Count(), "BEGINNING", true, 30f, 60f, 90f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "BOX TROUBLE", true, 20f, 45f, 100f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "JUMP", true, 20f, 40f, 60f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "DOWNWARD!", true, 45f, 60f, 90f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "BOX TROUBLE", true, 20f, 45f, 100f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "BARREL ROLL", true, 40f, 80f, 150f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "60M BOXES", true, 60f, 120f, 180f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "THE STAIR", true, 60f, 160f, 300f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "TEST", false, 1f, 2f, 3f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_1", false, 1f, 2f, 3f, true, true, false));
