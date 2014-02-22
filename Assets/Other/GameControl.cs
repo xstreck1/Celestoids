@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class GameControl : MonoBehaviour {
 	string level_name;
-	public float translate_width = 200f; // The width of the level - needs to be set manually 
+	public float translate_width = 1000f; // The width of the level - needs to be set manually 
 
 	void Awake() {
 		// Initialize the game if it was not already, otherwise this conducts instantiation of the level

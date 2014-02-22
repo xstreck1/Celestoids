@@ -22,16 +22,15 @@ public class SetScores : MonoBehaviour {
 
 	// Set medal for a respective player based on time
 	void setMedal(string player_name, float player_time) {
-		GameObject medal = scores.Find (player_name).Find ("medal").gameObject;
 		Transform old_medal = scores.Find (player_name).Find ("medal");
 		if (player_time < GameState.chosen_level.best_t && GameState.chosen_level.best_t < GameState.chosen_level.gold_t)
-			medal = (GameObject) Instantiate(GameObject.Find("highscore"), old_medal.position, old_medal.rotation);
+			Instantiate(GameObject.Find("highscore"), old_medal.position, old_medal.rotation);
 		else if (player_time < GameState.chosen_level.gold_t)
-			medal = (GameObject) Instantiate(GameObject.Find("gold"), old_medal.position, old_medal.rotation);
+			Instantiate(GameObject.Find("gold"), old_medal.position, old_medal.rotation);
 		else if (player_time < GameState.chosen_level.silver_t)
-			medal = (GameObject) Instantiate(GameObject.Find("silver"), old_medal.position, old_medal.rotation);
+			Instantiate(GameObject.Find("silver"), old_medal.position, old_medal.rotation);
 		else if (player_time < GameState.chosen_level.bronze_t)
-			medal = (GameObject) Instantiate(GameObject.Find("bronze"), old_medal.position, old_medal.rotation);
+			Instantiate(GameObject.Find("bronze"), old_medal.position, old_medal.rotation);
 		scores.Find(player_name).Find("medal").gameObject.SetActive(false);
 	}
 

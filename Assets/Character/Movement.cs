@@ -8,8 +8,9 @@ public class Movement : MonoBehaviour
 	private float roll_bound = 8.0f;
 	private float roll_out = 0f; // Compared with the bound
 
-	private float rotation_speed = 75f;
+	private float rotation_speed = 100f;
 	private float correction_speed; // This determines how fast will the leg try to move againts pressure
+	private float correction_factor = 10f; // Factor of movement againts pressure
 	private float last_angle = 0f; // The last angle of the leg w.r.t. the body (used for correction)
 
 	PlayerControl control;
@@ -35,7 +36,7 @@ public class Movement : MonoBehaviour
 		hingeJoint2D = GetComponent<HingeJoint2D>();
 		hingeMotor2D = hingeJoint2D.motor;
 		control = transform.parent.GetComponent<PlayerControl>();
-		correction_speed = 5f * (name.Equals("LegR") ? -1f : 1f);
+		correction_speed = correction_factor * (name.Equals("LegR") ? -1f : 1f);
 		last_angle = control.getBodyAngle(name);
 		piercing_stick = transform.FindChild("sticks_" + (stick_count -1).ToString()).GetComponent<PiercePiece>();
 		connecting_stick = transform.FindChild("sticks_" + (stick_count).ToString()).GetComponent<ConnectPiece>();
