@@ -63,6 +63,8 @@ public class GameState : MonoBehaviour {
 			levels.Add(new GameLevel(levels.Count(), "TUTORIAL", 0f, 0f, 0f, false, false, false));
 			levels.Add(new GameLevel(levels.Count(), "PEBBLE", 30f, 60f, 90f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "SUNDAY WALK", 30f, 60f, 90f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "AVALANCHE", 20f, 50f, 70f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "JUMP", 20f, 40f, 60f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "DOWNWARD!", 45f, 60f, 90f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "JUMP", 20f, 40f, 60f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "MATTER OF CHOICE", 30f, 50f, 80f, true, true, true));
