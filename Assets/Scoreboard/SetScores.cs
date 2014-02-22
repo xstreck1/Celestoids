@@ -14,10 +14,10 @@ public class SetScores : MonoBehaviour {
 	// Set numbers that are displayed to players
 	void SetRanks() {
 		ranks = transform.Find("ranks");
-		ranks.Find("highscore").GetComponent<TextMesh>().text = GameState.chosen_level.best_t == 0.0f? "newly finished" : ("Best: " + GameState.chosen_level.best_t.ToString("0.000s"));
-		ranks.Find("gold").GetComponent<TextMesh>().text = "Gold: " +  GameState.chosen_level.gold_t.ToString("0.000s");
-		ranks.Find("silver").GetComponent<TextMesh>().text = "Silver: " + GameState.chosen_level.silver_t.ToString("0.000s");
-		ranks.Find("bronze").GetComponent<TextMesh>().text = "Bronze: " + GameState.chosen_level.bronze_t.ToString("0.000s");
+		ranks.Find("highscore_r").GetComponent<TextMesh>().text = GameState.chosen_level.best_t == 0.0f? "newly finished" : ("Best: " + GameState.chosen_level.best_t.ToString("0.000s"));
+		ranks.Find("gold_r").GetComponent<TextMesh>().text = "Gold: " +  GameState.chosen_level.gold_t.ToString("0.000s");
+		ranks.Find("silver_r").GetComponent<TextMesh>().text = "Silver: " + GameState.chosen_level.silver_t.ToString("0.000s");
+		ranks.Find("bronze_r").GetComponent<TextMesh>().text = "Bronze: " + GameState.chosen_level.bronze_t.ToString("0.000s");
 	}
 
 	// Set medal for a respective player based on time
