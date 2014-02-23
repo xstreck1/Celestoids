@@ -6,11 +6,7 @@ using System.Collections.Generic;
 public class SetScores : MonoBehaviour {
 	Transform ranks;
 	Transform scores;
-
-	void Awake() {
-		GameState.init(new List<bool> {true, false, false, false}, "TEST");
-	}
-
+	
 	// Set numbers that are displayed to players
 	void SetRanks() {
 		ranks = transform.Find("ranks");

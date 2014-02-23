@@ -95,33 +95,47 @@ public class GameControl : MonoBehaviour {
 		switch (GameState.chosen_level.name) {
 		case "TUTORIAL":
 			GameState.nullify();
+			foreach (GameLevel level in GameState.levels)  {
+				if (level.name.Equals("TUTORIAL_1")) {
+					GameState.chosen_level = level;
+					break;
+				}
+			}
 			Application.LoadLevel("TUTORIAL_1");
 			return;
 		case "TUTORIAL_1":
 			GameState.nullify();
-			if (finished)
+			if (finished) {
+				GameState.chosen_level = GameState.levels[GameState.levels.IndexOf(GameState.chosen_level) + 1];
 				Application.LoadLevel("TUTORIAL_2");
+			}
 			else 
 				Application.LoadLevel("TUTORIAL_1");
 			return;
 		case "TUTORIAL_2":
 			GameState.nullify();
-			if (finished)
+			if (finished){
+				GameState.chosen_level = GameState.levels[GameState.levels.IndexOf(GameState.chosen_level) + 1];
 				Application.LoadLevel("TUTORIAL_3");
+			}
 			else 
 				Application.LoadLevel("TUTORIAL_2");
 			return;
 		case "TUTORIAL_3":
 			GameState.nullify();
-			if (finished)
+			if (finished){
+				GameState.chosen_level = GameState.levels[GameState.levels.IndexOf(GameState.chosen_level) + 1];
 				Application.LoadLevel("TUTORIAL_4");
+			}
 			else 
 				Application.LoadLevel("TUTORIAL_3");
 			return;
 		case "TUTORIAL_4":
 			GameState.nullify();
-			if (finished)
+			if (finished) {
+				GameState.chosen_level = GameState.levels[0];
 				Application.LoadLevel("MAIN_MENU");
+			}
 			else 
 				Application.LoadLevel("TUTORIAL_3");
 			return;

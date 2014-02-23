@@ -6,8 +6,6 @@ public class EyeRotation : MonoBehaviour
 	private const float ROTATION_SPEED = 125f;
 	private HingeJoint2D hingeJoint2D;
 	private int player_input;
-	private Vector2 eye_left = new Vector2 (-0.65f, 1f);
-	private Vector2 eye_right = new Vector2 (0.65f, 1f);
 
 	// Use this for initialization
 	void Start ()
