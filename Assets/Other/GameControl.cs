@@ -91,7 +91,7 @@ public class GameControl : MonoBehaviour {
 	}
 
 	void finishTutorial() {
-		bool finished = GameState.players [0].rank != 0; // True if the player reached the flag.
+		bool finished = GameState.players [0].finished | GameState.players [1].finished | GameState.players [2].finished | GameState.players [3].finished;
 		switch (GameState.chosen_level.name) {
 		case "TUTORIAL":
 			GameState.nullify();
