@@ -21,10 +21,12 @@ public class MainMenu : MonoBehaviour {
 
 	void setMedal(GameLevel level) {
 		Transform medals = transform.Find ("Medals");
-		string[] medal_names = {"gold", "silver", "bronze"};
+		string[] medal_names = {"gold", "silver", "bronze", "single_only"};
 		foreach (string medal in medal_names) {
 			medals.Find(medal).gameObject.SetActive(false);
 		}
+		if (level.name.Equals("TUTORIAL"))
+			medals.Find("single_only").gameObject.SetActive(true);
 		if (level.best_t == 0.0f) 
 			return;
 		else if (level.best_t < level.gold_t)
@@ -86,11 +88,11 @@ public class MainMenu : MonoBehaviour {
 		}
 
 		if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_U)) {
-			bool enabled = false;
+			int enabled = 0;
 			foreach (Player p in GameState.players) {
-				enabled |= p.active;
+				enabled += p.active ? 1 : 0;
 			}
-			if (enabled)
+			if ((GameState.chosen_level.name.Equals("TUTORIAL") & enabled == 1) || (!GameState.chosen_level.name.Equals("TUTORIAL") & enabled >= 1))
 				Application.LoadLevel(GameState.chosen_level.name);
 		}
 	}
