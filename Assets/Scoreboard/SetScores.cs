@@ -39,13 +39,11 @@ public class SetScores : MonoBehaviour {
 			string score = "";
 
 			// Determine the rank of the player
-			if (player.rank != 0) {
+			if (player.rank != 0) 
 				score = player.rank.ToString();
-				if (player.rank == 1) {
-					best_score = player.time;
-				}
-			}
-
+			if (player.rank == 1)
+				best_score = player.time;
+	
 			// If player finished, set medal and score
 			if (player.time == 0.0f) {
 				if (player.active) {
@@ -91,7 +89,6 @@ public class SetScores : MonoBehaviour {
 		if (SuperInputMapper.GetButtonDown(OuyaSDK.KeyEnum.BUTTON_O)) {
 			GameState.nullify();
 			Application.LoadLevel("main_menu");
-
 		}
 	}
 }
