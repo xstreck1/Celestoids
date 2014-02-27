@@ -54,10 +54,12 @@ public class PlayerControl : MonoBehaviour {
 
 	// Called when the player touches the flag
 	public void finish() {
-		player_state.time = Time.timeSinceLevelLoad;
-		player_state.rank = GameState.rank;
-		GameState.rank += 1;
-		disable();
+		if (! player_state.finished) {
+			player_state.time = Time.timeSinceLevelLoad;
+			player_state.rank = GameState.rank;
+			GameState.rank += 1;
+			disable();
+		}
 	}
 
 	// Disables the player

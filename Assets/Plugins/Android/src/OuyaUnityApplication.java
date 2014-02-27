@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.justaconcept.celestoids;
+package games.justaconcept.celestoids;
 
 import tv.ouya.console.api.OuyaController;
 import tv.ouya.sdk.*;

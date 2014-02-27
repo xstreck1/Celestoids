@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class MainMenu : MonoBehaviour {
-	readonly int TUTORIAL_COUNT = 5;
+	readonly int TUTORIAL_COUNT = 4;
 
 	Color getColor(GameLevel level) {
 		if (level.best_t == 0.0f) 
@@ -45,6 +45,7 @@ public class MainMenu : MonoBehaviour {
 
 	void Awake() {
 		GameState.init(new List<bool> {false, false, false, false}, "TUTORIAL");
+		// PlayerPrefs.DeleteAll ();
 	}
 
 	void Start() {
