@@ -22,6 +22,8 @@ public class Movement : MonoBehaviour
 
 	private int player_input; // ID of the player used in queries for controls
 
+	readonly float TIME_DELAY = 0.1f; // How long to block
+	float collision_timer = 0f; // If below 0, allow the movement
 	private bool in_collision_body;
 	
 	// Use this for initialization
@@ -104,9 +106,7 @@ public class Movement : MonoBehaviour
 			transform.Find("wheel").rigidbody2D.angularDrag = 0.01f;
 	}
 
-
-	// Input is obtained in the fixed update
-	void FixedUpdate ()
+	void Update ()
 	{
 		if (GameState.chosen_level.extension_allowed) {
 			float vertical = -1 * (name.Equals("LegR") ?  SuperInputMapper.GetAxis("RY", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LY", (OuyaSDK.OuyaPlayer)  player_input));
@@ -123,13 +123,18 @@ public class Movement : MonoBehaviour
 			float wheel_brake = (name.Equals("LegR") ? SuperInputMapper.GetAxis("RT", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LT", (OuyaSDK.OuyaPlayer)  player_input));
 			brakeWheel(wheel_brake);
 		}
-	}
 
+		collision_timer -= Time.deltaTime;
+		if (collision_timer < 0f)
+			in_collision_body = false;
+	}
 
 	// Control that body is not in collision with the leg.
 	void OnCollisionEnter2D(Collision2D collision2d) {
-		if (collision2d.gameObject.name.Equals("body_front"))
+		if (collision2d.gameObject.name.Equals("body_front")) {
 			in_collision_body = true;
+			collision_timer = TIME_DELAY;
+		}
 	}
 	
 	void OnCollisionExit2D(Collision2D collision2d) {
