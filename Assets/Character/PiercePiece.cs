@@ -21,7 +21,6 @@ public class PiercePiece : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D collision2d) {
 		if (collision2d.gameObject.name.Equals("wheel")) {
 		    in_collision = true;
-			
 			collision_timer = TIME_DELAY;
 		}
 	}

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class MainMenu : MonoBehaviour {
-	readonly int TUTORIAL_COUNT = 4;
+	readonly int TUTORIAL_COUNT = 5;
 
 	Color getColor(GameLevel level) {
 		if (level.best_t == 0.0f) 
@@ -21,12 +21,12 @@ public class MainMenu : MonoBehaviour {
 
 	void setMedal(GameLevel level) {
 		Transform medals = transform.Find ("Medals");
-		string[] medal_names = {"gold", "silver", "bronze", "single_only"};
+		string[] medal_names = {"gold", "silver", "bronze"};
 		foreach (string medal in medal_names) {
 			medals.Find(medal).gameObject.SetActive(false);
 		}
-		if (level.name.Equals("TUTORIAL"))
-			medals.Find("single_only").gameObject.SetActive(true);
+		medals.Find("single_only").gameObject.SetActive(false);
+
 		if (level.best_t == 0.0f) 
 			return;
 		else if (level.best_t < level.gold_t)
@@ -93,7 +93,13 @@ public class MainMenu : MonoBehaviour {
 			foreach (Player p in GameState.players) {
 				enabled += p.active ? 1 : 0;
 			}
-			if ((GameState.chosen_level.name.Equals("TUTORIAL") & enabled == 1) || (!GameState.chosen_level.name.Equals("TUTORIAL") & enabled >= 1))
+			if (GameState.chosen_level.name.Equals("TUTORIAL")) {
+				if (enabled == 1) 
+					Application.LoadLevel(GameState.chosen_level.name);
+				else
+					transform.Find ("Medals").Find("single_only").gameObject.SetActive(true);
+			}
+			else if (enabled >= 1)
 				Application.LoadLevel(GameState.chosen_level.name);
 		}
 	}
