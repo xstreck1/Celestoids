@@ -1,4 +1,11 @@
 # =============== #
+# Binaries        #
+# =============== #
+Celestoids.exe
+Celestoids.zip
+Celestoids_data/*
+
+# =============== #
 # Unity generated #
 # =============== #
 Temp/
