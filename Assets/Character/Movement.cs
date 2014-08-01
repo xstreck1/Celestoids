@@ -110,24 +110,22 @@ public class Movement : MonoBehaviour
 
 		void FixedUpdate ()
 		{
+		string stick = (name.Equals ("LegR")) ? "right" : "left";
+				player_input = 1;
 				if (GameState.chosen_level.extension_allowed) {
-						float vertical = -1 * (name.Equals ("LegR") ? SuperInputMapper.GetAxis ("RY", (OuyaSDK.OuyaPlayer)player_input) : SuperInputMapper.GetAxis ("LY", (OuyaSDK.OuyaPlayer)player_input));
+						float vertical = Input.GetAxis ("P" + player_input + " " + stick + " vertical");
 						if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f))
 								rollLeg (vertical);
 				}
 
 				if (GameState.chosen_level.rotation_allowed) {
-						float horizontal = name.Equals ("LegR") ? SuperInputMapper.GetAxis ("RX", (OuyaSDK.OuyaPlayer)player_input) : SuperInputMapper.GetAxis ("LX", (OuyaSDK.OuyaPlayer)player_input);
+						float horizontal = Input.GetAxis ("P" + player_input + " " + stick + " horizontal");
 						turnLeg (-1 * horizontal);
 				}
 
 				if (GameState.chosen_level.break_allowed) {
-						float wheel_brake = (name.Equals ("LegR") ? SuperInputMapper.GetAxis ("RT", (OuyaSDK.OuyaPlayer)player_input) : SuperInputMapper.GetAxis ("LT", (OuyaSDK.OuyaPlayer)player_input));
-						bool braked = (name.Equals ("LegR") ? 
-				               SuperInputMapper.GetButton (OuyaSDK.KeyEnum.BUTTON_R3, (OuyaSDK.OuyaPlayer)player_input) : 
-			               	SuperInputMapper.GetButton (OuyaSDK.KeyEnum.BUTTON_L3, (OuyaSDK.OuyaPlayer)player_input));
-						if (braked)
-								wheel_brake = 1f;
+						float wheel_brake = Input.GetAxis ("P" + player_input + " " + stick + " trigger");
+						wheel_brake = Mathf.Abs (wheel_brake);
 						brakeWheel (wheel_brake);
 				}
 
