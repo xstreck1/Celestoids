@@ -34,7 +34,7 @@ public class EyeRotation : MonoBehaviour
 	
 	// Input is obtained in the fixed update
 	void FixedUpdate () {
-		float horizontal = name.Equals("eyeballR") ? SuperInputMapper.GetAxis("RX", (OuyaSDK.OuyaPlayer)  player_input) : SuperInputMapper.GetAxis("LX", (OuyaSDK.OuyaPlayer)  player_input);
+		float horizontal = name.Equals("eyeballR") ? Input.GetAxis("P" + 1 + " right horizontal") : Input.GetAxis("P" + 1 + " left horizontal");
 		rotateEye(-1 * horizontal);
 	}
 }

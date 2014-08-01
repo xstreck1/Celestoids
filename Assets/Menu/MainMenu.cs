@@ -53,6 +53,8 @@ public class MainMenu : MonoBehaviour {
 		foreach (int i in Enumerable.Range(1,4)) {
 			transform.Find("Bodies").Find("player" + i.ToString()).gameObject.SetActive(GameState.players[i - 1].active);
 		}
+		foreach (string joy in Input.GetJoystickNames ())
+			Debug.Log(joy);
 	}
 
 	// Update is called once per frame
