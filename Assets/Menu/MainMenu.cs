@@ -13,10 +13,8 @@ public class MainMenu : MonoBehaviour {
 			return new Color(0.9f,0.85f,0f);
 		else if (level.best_t < level.silver_t)
 			return new Color(0.8f,0.85f,0.96f);
-		else if (level.best_t < level.bronze_t)
+		else
 			return new Color(0.6f,0.45f,0.33f);
-		else 
-			return new Color(0.35f,0.35f,0.35f);
 	}
 
 	void setMedal(GameLevel level) {
@@ -33,7 +31,7 @@ public class MainMenu : MonoBehaviour {
 			medals.Find("gold").gameObject.SetActive(true);
 		else if (level.best_t < level.silver_t)
 			medals.Find("silver").gameObject.SetActive(true);
-		else if (level.best_t < level.bronze_t)
+		else
 			medals.Find("bronze").gameObject.SetActive(true);
 	}
 
@@ -62,13 +60,10 @@ public class MainMenu : MonoBehaviour {
         Object.Destroy(GameObject.Find("GameDownload").GetComponent<OpenPage>());
 		configure.text = "Supports XBOX-style controllers.\nFor other controllers please use the Input tab in the launcher to configure.";
 #endif
-
 	}
 
 	// Update is called once per frame
 	void Update () {
-		SuperInputMapper.UpdateJoysticks();
-
 		foreach (int i in Enumerable.Range(1,4)) {
 			Player player = GameState.players[i - 1];
 
@@ -91,7 +86,7 @@ public class MainMenu : MonoBehaviour {
 				GameState.chosen_level = GameState.levels[current_index];
 				setName();
 			} // Next level
-			else if (Input.GetButtonDown("P" + 1 + " right button"))  {
+			else if (Input.GetButtonDown("P" + i + " right button"))  {
 				current_index = (current_index == GameState.levels.Count() - TUTORIAL_COUNT - 1) ? 0 : current_index + 1;
 				GameState.chosen_level = GameState.levels[current_index];
 				setName();

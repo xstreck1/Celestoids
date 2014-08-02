@@ -50,7 +50,6 @@ public class GameControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		SuperInputMapper.UpdateJoysticks();
 		bool finish = true;
 		foreach (Player player in GameState.players) {
 			finish &= (player.finished || !player.active);
