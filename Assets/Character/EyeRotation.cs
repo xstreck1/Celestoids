@@ -34,7 +34,7 @@ public class EyeRotation : MonoBehaviour
 	
 	// Input is obtained in the fixed update
 	void FixedUpdate () {
-		float horizontal = name.Equals("eyeballR") ? Input.GetAxis("P" + 1 + " right horizontal") : Input.GetAxis("P" + 1 + " left horizontal");
+		float horizontal = name.Equals("eyeballR") ? Input.GetAxis("P" + player_input + " right horizontal") : Input.GetAxis("P" + 1 + " left horizontal");
 		rotateEye(-1 * horizontal);
 	}
 }

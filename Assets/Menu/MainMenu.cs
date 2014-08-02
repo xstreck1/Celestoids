@@ -65,12 +65,12 @@ public class MainMenu : MonoBehaviour {
 			Player player = GameState.players[i - 1];
 
 			// Log in 
-			if (Input.GetButtonDown("P" + 1 + " connect")) {
+			if (Input.GetButtonDown("P" + i + " connect")) {
 				player.active = true;
 				GameState.players[i - 1] = player;
 				transform.Find("Bodies").Find("player" + i.ToString()).gameObject.SetActive(true);
 			} // Log ouf 
-			else if (Input.GetButtonDown("P" + 1 + " disconnect")) {
+			else if (Input.GetButtonDown("P" + i + " disconnect")) {
 				player.active = false;
 				GameState.players[i - 1] = player;
 				transform.Find("Bodies").Find("player" + i.ToString()).gameObject.SetActive(false);
@@ -78,7 +78,7 @@ public class MainMenu : MonoBehaviour {
 
 			// Previous level
 			int current_index = GameState.levels.IndexOf(GameState.chosen_level);
-			if (Input.GetButtonDown("P" + 1 + " left button")) {
+			if (Input.GetButtonDown("P" + i + " left button")) {
 				current_index = (current_index == 0) ? (GameState.levels.Count() - TUTORIAL_COUNT - 1) : current_index - 1;
 				GameState.chosen_level = GameState.levels[current_index];
 				setName();
@@ -88,21 +88,22 @@ public class MainMenu : MonoBehaviour {
 				GameState.chosen_level = GameState.levels[current_index];
 				setName();
 			}
-		}
 
-		if (Input.GetButtonDown("P" + 1 + " start")) {
-			int enabled = 0;
-			foreach (Player p in GameState.players) {
-				enabled += p.active ? 1 : 0;
-			}
-			if (GameState.chosen_level.name.Equals("TUTORIAL")) {
-				if (enabled == 1) 
+			// Start the game
+			if (Input.GetButtonDown("P" + i + " start")) {
+				int enabled = 0;
+				foreach (Player p in GameState.players) {
+					enabled += p.active ? 1 : 0;
+				}
+				if (GameState.chosen_level.name.Equals("TUTORIAL")) {
+					if (enabled == 1) 
+						Application.LoadLevel(GameState.chosen_level.name);
+					else
+						transform.Find ("Medals").Find("single_only").gameObject.SetActive(true);
+				}
+				else if (enabled >= 1)
 					Application.LoadLevel(GameState.chosen_level.name);
-				else
-					transform.Find ("Medals").Find("single_only").gameObject.SetActive(true);
 			}
-			else if (enabled >= 1)
-				Application.LoadLevel(GameState.chosen_level.name);
 		}
 	}
 }
