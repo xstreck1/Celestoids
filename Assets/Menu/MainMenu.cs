@@ -55,6 +55,14 @@ public class MainMenu : MonoBehaviour {
 		}
 		foreach (string joy in Input.GetJoystickNames ())
 			Debug.Log(joy);
+		TextMesh configure = GameObject.Find("configure").GetComponent<TextMesh>();
+#if UNITY_WEBPLAYER
+		configure.text = "Web version supports XBOX controllers only.\nTo set up for other controllers, click to download the standalone version.";
+#else
+        Object.Destroy(GameObject.Find("GameDownload").GetComponent<OpenPage>());
+		configure.text = "Supports XBOX-style controllers.\nFor other controllers please use the Input tab in the launcher to configure.";
+#endif
+
 	}
 
 	// Update is called once per frame
