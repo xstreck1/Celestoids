@@ -2,75 +2,92 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class PlayerControl : MonoBehaviour {
-	private Transform body;
-	public Player player_state;
+public class PlayerControl : MonoBehaviour
+{
+		private Transform body;
+		public Player player_state;
+		private readonly float CAM_DIST = -10f;
 
-	private readonly float CAM_DIST = -10f;
+		// Use this for initialization
+		void Start ()
+		{
+				body = transform.Find ("Body");
 
-	// Use this for initialization
-	void Start () {
-		body = transform.Find("Body");
-
-		// Attach player
-		foreach (Player player in GameState.players) {
-			if (player.name.Equals(name)) {
-				player_state = player;
-			}
+				// Attach player
+				foreach (Player player in GameState.players) {
+						if (player.name.Equals (name)) {
+								player_state = player;
+						}
+				}
 		}
-	}
 
-	// Update is called once per frame
-	void Update () {
-		// Move the camera
-		Vector3 camera = body.transform.position;
-		camera.z = CAM_DIST;
-		transform.FindChild("camera").transform.position = camera;
-		// transform.FindChild("camera_s").transform.position = camera;
+		// Update is called once per frame
+		void Update ()
+		{
+				// Move the camera
+				Vector3 camera = body.transform.position;
+				camera.z = CAM_DIST;
+				transform.FindChild ("camera").transform.position = camera;
+				// transform.FindChild("camera_s").transform.position = camera;
 
-		if (Input.GetButtonDown("P" + "1" + " yield")) {
-			disable();
+				if (!GameState.chosen_level.name.Contains ("TUTORIAL")) {
+						if (Input.GetButtonDown ("P" + player_state.number + " yield")) 
+								disable ();
+				} else {
+						// In the tutorial, use disconnect to restart and Y to get to the menu
+						if (Input.GetButtonDown ("P" + player_state.number + " disconnect")) 
+								disable ();
+						if (Input.GetButtonDown ("P" + player_state.number + " yield")) {
+								GameState.nullify ();
+								GameState.chosen_level = GameState.levels [0];
+								Application.LoadLevel("MAIN_MENU");
+						}
+				}
 		}
-	}
 
-	// Obtain the angle between the body and the leg
-	public float getBodyAngle(string leg_name) {
-		return Quaternion.Angle(transform.Find(leg_name).rotation, transform.Find("Body").rotation);
-	}
-
-	// Obtain the angle between respective axis and the leg
-	public float getAxisAngle(string leg_name) {
-		Transform axis = leg_name.Equals("LegL") ? body.Find("axisL") : body.Find("axisR");
-		return Quaternion.Angle(transform.Find(leg_name).rotation, axis.rotation);
-	}
-
-	// For blocking of the rotation.
-	public bool isFixed(string leg, bool bot) {
-		if (bot) 
-			return (getBodyAngle(leg) < 60f) && (getAxisAngle(leg) < 30f);
-		else 
-			return (getBodyAngle(leg) > 60f) && (getAxisAngle(leg) < 30f);
-	}
-
-	// Called when the player touches the flag
-	public void finish() {
-		if (! player_state.finished) {
-			player_state.time = Time.timeSinceLevelLoad;
-			player_state.rank = GameState.rank;
-			GameState.rank += 1;
-			disable();
+		// Obtain the angle between the body and the leg
+		public float getBodyAngle (string leg_name)
+		{
+				return Quaternion.Angle (transform.Find (leg_name).rotation, transform.Find ("Body").rotation);
 		}
-	}
 
-	// Disables the player
-	private void disable() {
-		transform.Find("LegL").gameObject.SetActive(false);
-		transform.Find("LegR").gameObject.SetActive(false);
-		player_state.finished = true;
-		foreach (int i in Enumerable.Range(0,4)) {
-			if (GameState.players[i].name.Equals(name)) {
-				GameState.players[i] = player_state;
-			}
+		// Obtain the angle between respective axis and the leg
+		public float getAxisAngle (string leg_name)
+		{
+				Transform axis = leg_name.Equals ("LegL") ? body.Find ("axisL") : body.Find ("axisR");
+				return Quaternion.Angle (transform.Find (leg_name).rotation, axis.rotation);
 		}
-	}
+
+		// For blocking of the rotation.
+		public bool isFixed (string leg, bool bot)
+		{
+				if (bot) 
+						return (getBodyAngle (leg) < 60f) && (getAxisAngle (leg) < 30f);
+				else 
+						return (getBodyAngle (leg) > 60f) && (getAxisAngle (leg) < 30f);
+		}
+
+		// Called when the player touches the flag
+		public void finish ()
+		{
+				if (! player_state.finished) {
+						player_state.time = Time.timeSinceLevelLoad;
+						player_state.rank = GameState.rank;
+						GameState.rank += 1;
+						disable ();
+				}
+		}
+
+		// Disables the player
+		private void disable ()
+		{
+				transform.Find ("LegL").gameObject.SetActive (false);
+				transform.Find ("LegR").gameObject.SetActive (false);
+				player_state.finished = true;
+				foreach (int i in Enumerable.Range(0,4)) {
+						if (GameState.players [i].name.Equals (name)) {
+								GameState.players [i] = player_state;
+						}
+				}
+		}
 }

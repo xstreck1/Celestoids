@@ -138,7 +138,7 @@ public class GameControl : MonoBehaviour {
 				Application.LoadLevel("MAIN_MENU");
 			}
 			else 
-				Application.LoadLevel("TUTORIAL_3");
+				Application.LoadLevel("TUTORIAL_4");
 			return;
 		}
 	}

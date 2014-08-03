@@ -7,7 +7,9 @@ public class MainMenu : MonoBehaviour {
 	readonly int TUTORIAL_COUNT = 5;
 
 	Color getColor(GameLevel level) {
-		if (level.best_t == 0.0f) 
+		if (GameState.chosen_level.name.Equals("TUTORIAL"))
+			return new Color(1f,1f,1f);
+		else if (level.best_t == 0.0f) 
 			return new Color(0.35f,0.35f,0.35f);
 		else if (level.best_t < level.gold_t)
 			return new Color(0.9f,0.85f,0f);
