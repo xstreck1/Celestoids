@@ -26,19 +26,17 @@ public struct GameLevel {
 	public string name;
 	public float gold_t;
 	public float silver_t;
-	public float bronze_t;
 	public float best_t;
 	public bool rotation_allowed;
 	public bool extension_allowed;
 	public bool break_allowed;
 
-	public GameLevel(int ID, string name, float gold_t, float silver_t, float bronze_t, bool rotation_allowed, bool extension_allowed, bool break_allowed) {
+	public GameLevel(int ID, string name, float gold_t, float silver_t, bool rotation_allowed, bool extension_allowed, bool break_allowed) {
 		this.ID = ID;
 		this.name = name;
 		this.best_t = PlayerPrefs.GetFloat(name, 0.0f);
 		this.gold_t = gold_t;
 		this.silver_t = silver_t;
-		this.bronze_t = bronze_t;
 		this.rotation_allowed = rotation_allowed;
 		this.extension_allowed = extension_allowed;
 		this.break_allowed = break_allowed;
@@ -60,28 +58,28 @@ public class GameState : MonoBehaviour {
 				players.Add(new Player("player" + i.ToString(), i, active[i - 1]));
 
 			levels = new List<GameLevel>();
-			levels.Add(new GameLevel(levels.Count(), "TUTORIAL", 0f, 0f, 0f, false, false, false));
-			levels.Add(new GameLevel(levels.Count(), "PEBBLE", 20f, 40f, 60f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "SUNDAY WALK", 30f, 60f, 90f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "AVALANCHE", 20f, 50f, 70f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "DOWNWARD!", 45f, 60f, 90f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "JUMP", 20f, 40f, 60f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "SPELUNKING", 35f, 60f, 100f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "HOLE TO FILL", 10f, 15f, 20f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "HOURGLASS", 45f, 70f, 105f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "MATTER OF CHOICE", 30f, 50f, 80f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "BARREL ROLL", 20f, 50f, 100f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "SECRET SERVICE", 60f, 90f, 120f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "TOWER OF BOX", 30f, 60f, 100f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "60M BOXES", 60f, 130f, 200f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "WAREHOUSE", 60f, 130f, 250f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "RAINY DAY", 30f, 70f, 150f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "THE STAIRS", 45f, 90f, 180f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "TEST", 1f, 2f, 3f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_1", 1f, 2f, 3f, true, true, false));
-			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_2", 1f, 2f, 3f, true, true, false));
-			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_3", 1f, 2f, 3f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_4", 1f, 2f, 3f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "TUTORIAL", 0f, 0f, false, false, false));
+			levels.Add(new GameLevel(levels.Count(), "PEBBLE", 20f, 40f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "SUNDAY WALK", 30f, 60f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "AVALANCHE", 20f, 50f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "DOWNWARD!", 45f, 60f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "JUMP", 20f, 40f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "SPELUNKING", 35f, 60f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "HOLE TO FILL", 10f, 15f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "HOURGLASS", 45f, 70f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "MATTER OF CHOICE", 30f, 50f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "BARREL ROLL", 20f, 50f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "SECRET SERVICE", 60f, 90f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "TOWER OF BOX", 30f, 60f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "60M BOXES", 60f, 130f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "WAREHOUSE", 60f, 130f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "RAINY DAY", 30f, 70f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "THE STAIRS", 45f, 90f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "TEST", 1f, 2f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_1", 1f, 2f, true, true, false));
+			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_2", 1f, 2f, true, true, false));
+			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_3", 1f, 2f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "TUTORIAL_4", 1f, 2f, true, true, true));
 
 			foreach (GameLevel level in levels)  {
 				if (level_to_choose.Equals(level.name)) {

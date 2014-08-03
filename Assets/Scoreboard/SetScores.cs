@@ -15,7 +15,7 @@ public class SetScores : MonoBehaviour
 				ranks.Find ("highscore_r").GetComponent<TextMesh> ().text = GameState.chosen_level.best_t == 0.0f ? "newly finished" : ("Best: " + GameState.chosen_level.best_t.ToString ("0.000s"));
 				ranks.Find ("gold_r").GetComponent<TextMesh> ().text = "Gold: " + GameState.chosen_level.gold_t.ToString ("0.000s");
 				ranks.Find ("silver_r").GetComponent<TextMesh> ().text = "Silver: " + GameState.chosen_level.silver_t.ToString ("0.000s");
-				ranks.Find ("bronze_r").GetComponent<TextMesh> ().text = "Bronze: " + GameState.chosen_level.bronze_t.ToString ("0.000s");
+				ranks.Find ("bronze_r").GetComponent<TextMesh> ().text = "Bronze: finish";
 		}
 
 		// Set medal for a respective player based on time. The bronze is awarded for finishing the level.

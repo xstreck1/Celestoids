@@ -12,9 +12,7 @@ public class Timers : MonoBehaviour {
 	void Start () {
 		// Determine what is the current top time
 		top_time = GameState.chosen_level.best_t == 0.0f ? float.MaxValue : GameState.chosen_level.best_t;
-		if (top_time > GameState.chosen_level.bronze_t) 
-			top_time = GameState.chosen_level.bronze_t;
-		else if (top_time > GameState.chosen_level.silver_t)
+		if (top_time > GameState.chosen_level.silver_t)
 			top_time = GameState.chosen_level.silver_t;
 		else if (top_time > GameState.chosen_level.gold_t)
 			top_time = GameState.chosen_level.gold_t;
