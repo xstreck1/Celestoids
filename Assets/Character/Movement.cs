@@ -141,9 +141,13 @@ public class Movement : MonoBehaviour
 							brakeWheel (wheel_brake);
 				}
 
-				collision_timer -= Time.deltaTime;
-				if (collision_timer < 0f)
-						in_collision_body = false;
+		}
+
+		void Update() {
+		
+			collision_timer -= Time.deltaTime;
+			if (collision_timer < 0f)
+				in_collision_body = false;
 		}
 
 		// Control that body is not in collision with the leg.

@@ -36,7 +36,7 @@ public class Polygon2D : MonoBehaviour {
 	{
 		UpdateComponents();
 	}
-	
+
 	public void UpdateComponents()
 	{
 		// Update mesh collider
