@@ -4,7 +4,7 @@ using System.Collections;
 public class Movement : MonoBehaviour
 {
 		private int stick_count = 7;
-		private float roll_speed = 0.015f;
+		private float roll_speed = 1.0f;
 		private float roll_bound = 8.0f;
 		private float roll_out = 0f; // Compared with the bound
 
@@ -53,11 +53,11 @@ public class Movement : MonoBehaviour
 				if (vertical < 0f && !connecting_stick.in_collision)
 						return;
 
-				float roll_lenght = vertical * (stick_count - 1) * roll_speed;
+				float roll_lenght = vertical * (stick_count - 1) * roll_speed * Time.deltaTime;
 
 				// Move sticks
 				for (int i = 1; i < stick_count; i++) 
-						transform.Find ("sticks_" + i.ToString ()).Translate (vertical * Vector3.down * i * roll_speed);
+						transform.Find ("sticks_" + i.ToString ()).Translate (vertical * Vector3.down * i * roll_speed * Time.deltaTime);
 				transform.Find ("sticks_" + stick_count.ToString ()).Translate (roll_lenght * Vector3.down);
 
 				// Move wheel
@@ -108,31 +108,27 @@ public class Movement : MonoBehaviour
 						transform.Find ("wheel").rigidbody2D.angularDrag = 0.01f;
 		}
 
-		void FixedUpdate ()
+		void Update ()
 		{
-		string stick = (name.Equals ("LegR")) ? "right" : "left";
+				string stick = (name.Equals ("LegR")) ? "right" : "left";
 				player_input = 1;
 				if (GameState.chosen_level.extension_allowed) {
 						float vertical = Input.GetAxis ("P" + player_input + " " + stick + " vertical");
 						if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f))
 								rollLeg (vertical);
 				}
-
+		
 				if (GameState.chosen_level.rotation_allowed) {
 						float horizontal = Input.GetAxis ("P" + player_input + " " + stick + " horizontal");
 						turnLeg (-1 * horizontal);
 				}
-
+		
 				if (GameState.chosen_level.break_allowed) {
 						float wheel_brake = Input.GetAxis ("P" + player_input + " " + stick + " trigger");
 						wheel_brake = Mathf.Abs (wheel_brake);
 						brakeWheel (wheel_brake);
 				}
 
-		}
-
-		void Update ()
-		{
 				collision_timer -= Time.deltaTime;
 				if (collision_timer < 0f)
 						in_collision_body = false;
