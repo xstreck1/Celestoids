@@ -134,6 +134,11 @@ public class Movement : MonoBehaviour
 
 						wheel_brake = Mathf.Abs (wheel_brake);
 						brakeWheel (wheel_brake);
+
+						if (Input.GetButton("P" + player_input + " " + stick + " low button")) 
+							brakeWheel (1f);
+						else if (wheel_brake == 0f)
+							brakeWheel (wheel_brake);
 				}
 
 				collision_timer -= Time.deltaTime;

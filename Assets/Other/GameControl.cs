@@ -9,7 +9,7 @@ public class GameControl : MonoBehaviour {
 
 	void Awake() {
 		// Initialize the game if it was not already, otherwise this conducts instantiation of the level
-		GameState.init(new List<bool> {true, false, false, false}, Application.loadedLevelName);
+		GameState.init(new List<bool> {true, true, true, true}, Application.loadedLevelName);
 		GameState.nullify();
 		// Disable counter
 		if (countPlayers() > 1) {
