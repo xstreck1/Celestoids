@@ -4,7 +4,7 @@ using System.Collections;
 public class Movement : MonoBehaviour
 {
 		private int stick_count = 7;
-		private float roll_speed = 1.0f;
+		private float roll_speed = 0.02f;
 		private float roll_bound = 8.0f;
 		private float roll_out = 0f; // Compared with the bound
 
@@ -18,7 +18,9 @@ public class Movement : MonoBehaviour
 		private JointMotor2D hingeMotor2D;
 		private PiercePiece piercing_stick;
 		private ConnectPiece connecting_stick;
+		private Transform wheel_brake;
 		private int player_input; // ID of the player used in queries for controls
+		
 
 		readonly float TIME_DELAY = 0.1f; // How long to block
 		float collision_timer = 0f; // If below 0, allow the movement
@@ -40,6 +42,7 @@ public class Movement : MonoBehaviour
 				last_angle = control.getBodyAngle (name);
 				piercing_stick = transform.FindChild ("sticks_" + (stick_count - 1).ToString ()).GetComponent<PiercePiece> ();
 				connecting_stick = transform.FindChild ("sticks_" + (stick_count).ToString ()).GetComponent<ConnectPiece> ();
+				wheel_brake = transform.FindChild ("wheel").FindChild ("brake");
 				in_collision_body = false;
 		}
 
@@ -53,11 +56,11 @@ public class Movement : MonoBehaviour
 				if (vertical < 0f && !connecting_stick.in_collision)
 						return;
 
-				float roll_lenght = vertical * (stick_count - 1) * roll_speed * Time.deltaTime;
+				float roll_lenght = vertical * (stick_count - 1) * roll_speed;
 
 				// Move sticks
 				for (int i = 1; i < stick_count; i++) 
-						transform.Find ("sticks_" + i.ToString ()).Translate (vertical * Vector3.down * i * roll_speed * Time.deltaTime);
+						transform.Find ("sticks_" + i.ToString ()).Translate (vertical * Vector3.down * i * roll_speed);
 				transform.Find ("sticks_" + stick_count.ToString ()).Translate (roll_lenght * Vector3.down);
 
 				// Move wheel
@@ -88,9 +91,7 @@ public class Movement : MonoBehaviour
 				if (horizontal != 0f && valid_angle (horizontal)) {
 						hingeMotor2D.motorSpeed = rotation_speed * horizontal;
 						last_angle = control.getBodyAngle (name);
-				} else {
-						hingeMotor2D.motorSpeed = (last_angle - control.getBodyAngle (name)) * correction_speed;
-				}
+				} 
 				// hingeJoint2D.limits = blocking_limits;
 				hingeJoint2D.motor = hingeMotor2D;
 		}
@@ -106,12 +107,15 @@ public class Movement : MonoBehaviour
 						transform.Find ("wheel").rigidbody2D.fixedAngle = true;
 				else 
 						transform.Find ("wheel").rigidbody2D.angularDrag = 0.01f;
+
+				float scale = Mathf.Max (brake, 0.2f);
+				wheel_brake.localScale = new Vector3 (scale, scale, 1f);
 		}
 
-		void Update ()
+		void FixedUpdate ()
 		{
 				string stick = (name.Equals ("LegR")) ? "right" : "left";
-				player_input = 1;
+
 				if (GameState.chosen_level.extension_allowed) {
 						float vertical = Input.GetAxis ("P" + player_input + " " + stick + " vertical");
 						if ((vertical > 0f && roll_out < roll_bound) || (vertical < 0f && roll_out > 0f))
@@ -125,6 +129,9 @@ public class Movement : MonoBehaviour
 		
 				if (GameState.chosen_level.break_allowed) {
 						float wheel_brake = Input.GetAxis ("P" + player_input + " " + stick + " trigger");
+			            if ((name.Equals ("LegR") && wheel_brake > 0f) || (name.Equals ("LegL") && wheel_brake < 0f))
+							wheel_brake = 0f;
+
 						wheel_brake = Mathf.Abs (wheel_brake);
 						brakeWheel (wheel_brake);
 				}
