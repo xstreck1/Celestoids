@@ -4,11 +4,11 @@ using System.Collections;
 public class Movement : MonoBehaviour
 {
 		private int stick_count = 7;
-		private float roll_speed = 0.02f;
+		private float roll_speed = 0.04f;
 		private float roll_bound = 8.0f;
 		private float roll_out = 0f; // Compared with the bound
 
-		private float rotation_speed = 100f;
+		private float rotation_speed = 150f;
 		private float correction_speed; // This determines how fast will the leg try to move againts pressure
 		private float correction_factor = 10f; // Factor of movement againts pressure
 		private float last_angle = 0f; // The last angle of the leg w.r.t. the body (used for correction)
