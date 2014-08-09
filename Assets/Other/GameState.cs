@@ -61,11 +61,11 @@ public class GameState : MonoBehaviour {
 			levels.Add(new GameLevel(levels.Count(), "TUTORIAL", 0f, 0f, false, false, false));
 			levels.Add(new GameLevel(levels.Count(), "PEBBLE", 20f, 40f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "SUNDAY WALK", 25f, 50f, true, true, true));
+			levels.Add(new GameLevel(levels.Count(), "THE BRIDGE", 10f, 20f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "DOWNWARD!", 30f, 60f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "AVALANCHE", 15f, 30f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "JUMP", 15f, 30f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "SPELUNKING", 35f, 70f, true, true, true));
-			levels.Add(new GameLevel(levels.Count(), "THE BRIDGE", 10f, 20f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "60M BOXES", 45f, 90f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "HOURGLASS", 50f, 90f, true, true, true));
 			levels.Add(new GameLevel(levels.Count(), "BARREL ROLL", 20f, 40f, true, true, true));
