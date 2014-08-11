@@ -57,10 +57,10 @@ public class MainMenu : MonoBehaviour {
 			Debug.Log(joy);
 		TextMesh configure = GameObject.Find("configure").GetComponent<TextMesh>();
 #if UNITY_WEBPLAYER
-		configure.text = "Web version supports XBOX controllers only.\nTo set up for other controllers, click to download the standalone version.";
+		configure.text = "GAMEPAD NEEDED!\nWeb version supports XBOX controllers only.\nTo set up for other controllers, click HERE to download the desktop version.";
 #else
         Object.Destroy(GameObject.Find("GameDownload").GetComponent<OpenPage>());
-		configure.text = "Supports XBOX-style controllers.\nFor other controllers please use the Input tab in the launcher to configure.";
+		configure.text = "GAMEPAD NEEDED!\nSupports XBOX-style controllers.\nFor other controllers please use the Input tab in the launcher to configure.";
 #endif
 	}
 
