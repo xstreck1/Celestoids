@@ -4,7 +4,9 @@ The winner of the Berlin OUYA Jam 2013.
 
 Celestoids are an OUYA game, published on OUYA store.
 
-It is a silly, fun-to-fail party multiplayer racer with quirky physics.
+It is a silly, fun-to-fail party multiplayer racer with quirky physics. Reqires a gamepad for each player.
+
+This is a Unity3Dv4 project.
 
 Copyright (C) 2013-2014 - Adam Streck
 Software under GNU GPL v3
